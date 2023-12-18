@@ -153,7 +153,7 @@ const swiperBreakPoints = {
         height: auto;
     }
 
-    section {
+    .loading_section {
         height: 100%;
         width: 100%;
         display: grid;
