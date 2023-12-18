@@ -145,11 +145,20 @@ const swiperBreakPoints = {
     }
 
 }
+
 @media (max-width:920px) {
     .product_gallery img {
-        width:100%;
-        max-width:max-content;
-        height:auto;
+        width: 100%;
+        max-width: max-content;
+        height: auto;
+    }
+
+    section {
+        height: 100%;
+        width: 100%;
+        display: grid;
+        place-content: center;
+        height: 100vh;
     }
 }
 
@@ -163,37 +172,37 @@ const swiperBreakPoints = {
     color: white;
     font-weight: bold;
     cursor: pointer;
-    display:flex;
+    display: flex;
     align-items: center;
     justify-content: center;
     transition: 0.3s ease;
 }
 
 .row {
-    display:flex;
+    display: flex;
     align-items: center;
 }
 
 .row svg {
-    font-size:16px;
-    font-weight:bold;
+    font-size: 16px;
+    font-weight: bold;
 }
 
 .row .category_box {
-    background:#f7f7f7;
-    padding:5px 10px;
-    border-radius:10px;
-    height:30px;
-    display:flex;
+    background: #f7f7f7;
+    padding: 5px 10px;
+    border-radius: 10px;
+    height: 30px;
+    display: flex;
     align-items: center;
-    font-weight:bold;
-    cursor:pointer;
-    color:#334155;
-    margin:0 5px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #334155;
+    margin: 0 5px;
 }
 
 .buy_button svg {
-    margin-right:5px;
+    margin-right: 5px;
 }
 
 
