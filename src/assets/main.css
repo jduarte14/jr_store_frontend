@@ -1,0 +1,22 @@
+@import './base.css';
+
+body {
+  margin:0;
+  padding:0;
+  box-sizing: border-box;
+}
+
+.swiper-button-prev,
+.swiper-button-next {
+  background:white;
+  border-radius:100px;
+  width:50px !important;
+  height:50px  !important;
+  color:black  !important;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
+.swiper-button-prev:after,
+.swiper-button-next:after {
+  font-size:30px  !important;
+  font-weight:bold;
+}
