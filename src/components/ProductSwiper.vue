@@ -57,6 +57,7 @@ onMounted(() => {
           <RouterLink :to="`/product/${product._id}`">
             <img :src="product.image" :alt="product.name" />
             <h2>{{ product.name }}</h2>
+            <span class="price" v-if="product.price">Є{{ product.price }}</span>
             <p>
               {{ product.description }}
             </p>
@@ -105,6 +106,12 @@ h2 {
   margin: 3px;
 }
 
+.price {
+  font-weight:bold;
+  font-size:20px;
+  color:black;
+}
+
 img {
   width: 100%;
   height: auto;
@@ -116,6 +123,7 @@ img {
   padding: 10px;
   border-radius: 10px;
   max-width: max-content;
+  height:auto;
 }
 .product_box a {
   text-decoration: none;

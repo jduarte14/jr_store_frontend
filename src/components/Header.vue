@@ -25,7 +25,7 @@ const toggleSidebar = () => {
                 </div>
                 <RouterLink to="/">Home</RouterLink>
                 <RouterLink to="/about">About</RouterLink>
-            </nav>      
+            </nav>
         </div>
     </header>
 </template>
@@ -52,14 +52,15 @@ const toggleSidebar = () => {
 
 header {
     width: 100%;
-    position: fixed;
     top: 0;
     left: 0;
     right: 0;
-    padding: 10px 5px;
     background-color: #c7c7c7;
     background-image: linear-gradient(to bottom, #333, #c7c7c7);
-    z-index:2;
+    z-index: 2;
+    position: sticky;
+    background: var(--black);
+    padding: 10px 0;
 }
 
 nav {
@@ -73,9 +74,12 @@ nav {
     justify-content: center;
     font-size: 1.5em;
     letter-spacing: 3.5px;
-    border-bottom: 2px solid white;
     margin-left: 20px;
     margin-right: 20px;
+}
+
+.logo p {
+    border-bottom:2px solid white;
 }
 
 a {
@@ -108,21 +112,18 @@ a:hover::after {
     a {
         display: none;
     }
+
     .logo {
-        border-bottom:unset;
+        border-bottom: unset;
     }
+
     .logo {
-        font-size:1em;
+        font-size: 1em;
     }
 
     .header_container {
         align-items: center;
     }
-    header {
-        position:sticky;
-        background:var(--black);
-    }
-    
 }
 
 @media (min-width:981px) {

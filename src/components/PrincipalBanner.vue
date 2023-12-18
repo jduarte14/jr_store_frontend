@@ -14,7 +14,7 @@ const img = ref('https://dummyimage.com/1920x500/ffffff/000')
 <style scoped>
     .principal_banner img {
         width:100%;
-        min-width:100vw;
+        max-width:100vw;
         height:auto;
     }
     .principal_banner {

@@ -53,7 +53,7 @@ const swiperBreakPoints = {
 <template>
     <section class="product_section" v-if="!loading">
         <div class="product_gallery">
-            <swiper :slides-per-view="5" :breakpoints="swiperBreakPoints" :space-between="30"
+            <swiper v-if="productData.image2" :slides-per-view="5" :breakpoints="swiperBreakPoints" :space-between="30"
                 :pagination="{ clickable: true }" :navigation="{ draggable: true }">
                 <swiper-slide v-if="productData.image">
                     <img :src="productData.image" />
@@ -72,6 +72,9 @@ const swiperBreakPoints = {
                 </swiper-slide>
 
             </swiper>
+            <div v-else class="product_gallery">
+                <img :src="productData.image">
+            </div>
         </div>
 
         <div class="product_card" :key="productData_id">
@@ -85,6 +88,7 @@ const swiperBreakPoints = {
                 </div>
             </div>
             <h1>{{ productData.name }}</h1>
+            <p class="price" v-if="productData.price">Є{{ productData.price }}</p>
             <p>{{ productData.description }} </p>
 
             <div v-if="productData.characteristic" class="charac_box">
@@ -114,6 +118,18 @@ const swiperBreakPoints = {
 @media (min-width:921px) {
     h1 {
         font-size: 2.4em;
+        margin-bottom:10px;
+        margin-top:15px;
+    }
+    .price {
+        font-weight:bold;
+        font-size:25px;
+        margin-top:5px;
+        margin-bottom:5px;
+    }
+    .product_card {
+        max-width: 50%;
+        width: 100%;
     }
 
     .loading_section {
@@ -127,7 +143,7 @@ const swiperBreakPoints = {
     .product_section {
         display: flex;
         justify-content: flex-start;
-        margin-top: 10%;
+        margin-top: 3%;
     }
 
     .product_gallery {
@@ -276,4 +292,5 @@ section {
         width: 100%;
         margin: 0 auto;
     }
-}</style>
+}
+</style>
