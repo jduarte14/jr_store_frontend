@@ -149,5 +149,21 @@ body {
   .swiper_row {
     padding-top: 30px;
   }
+  .product_box {
+    display:flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .product_box h2 {
+    font-size:20px;
+  }
+  .product_box p {
+    font-size:12px;
+    text-wrap: wrap;
+  }
+  .product_box a {
+    padding:0;
+    margin:0;
+  }
 }
 </style>

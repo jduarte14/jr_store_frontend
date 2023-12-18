@@ -20,7 +20,7 @@ defineProps({
 
 <template>
     <aside :class="sidebar ? 'active' : ''">
-        <div class="ico">
+        <div class="ico" @click="toggleSidebar">
             <Icon icon="iconamoon:close" color="white"/>
         </div>
         <RouterLink to="/">Home</RouterLink>
@@ -66,7 +66,7 @@ defineProps({
 
     aside {
         position: fixed;
-        right: 0;
+        left: 0;
         top: 0;
         height: 100%;
         width: max-content;
@@ -75,9 +75,9 @@ defineProps({
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        border-left: 2px solid white;
+        border-right: 2px solid white;
         padding: 10px;
-        transform: translateX(100%);
+        transform: translateX(-100%);
         transition: 0.3s ease-in-out;
         background: var(--black);
     }

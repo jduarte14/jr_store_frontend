@@ -13,6 +13,10 @@ const toggleSidebar = () => {
 <template>
     <header>
         <div class="header_container">
+            <div class="hamburguer_icon" @click="toggleSidebar">
+                <Icon icon="ci:hamburger-lg" color="white" />
+            </div>
+            <Sidebar :sidebar="sidebar" :toggleSidebar="toggleSidebar" />
             <nav>
                 <RouterLink to="/">Home</RouterLink>
                 <RouterLink to="/about">About</RouterLink>
@@ -21,13 +25,7 @@ const toggleSidebar = () => {
                 </div>
                 <RouterLink to="/">Home</RouterLink>
                 <RouterLink to="/about">About</RouterLink>
-
-            </nav>
-            <div class="hamburguer_icon" @click="toggleSidebar">
-                <Icon icon="ci:hamburger-lg" color="white" />
-            </div>
-            <Sidebar :sidebar="sidebar" :toggleSidebar="toggleSidebar" />
-
+            </nav>      
         </div>
     </header>
 </template>
@@ -36,8 +34,8 @@ const toggleSidebar = () => {
     margin-left: auto;
     color: white;
     position: absolute;
-    right: 5px;
-    font-size: 35px;
+    left: 10px;
+    font-size: 30px;
     font-weight: bold;
     cursor: pointer;
     display: flex;
@@ -75,9 +73,6 @@ nav {
     justify-content: center;
     font-size: 1.5em;
     letter-spacing: 3.5px;
-}
-
-.logo {
     border-bottom: 2px solid white;
     margin-left: 20px;
     margin-right: 20px;
@@ -113,12 +108,18 @@ a:hover::after {
     a {
         display: none;
     }
+    .logo {
+        border-bottom:unset;
+    }
+    .logo {
+        font-size:1em;
+    }
 
     .header_container {
         align-items: center;
     }
     header {
-        position:relative;
+        position:sticky;
         background:var(--black);
     }
     
