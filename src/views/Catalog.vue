@@ -2,9 +2,9 @@
 import { onMounted, ref, computed } from 'vue';
 import { useProductStore } from './../stores/productStore';
 import { RouterLink } from 'vue-router';
-import Spinner from './../components/Spinner.vue';
 import { Icon } from '@iconify/vue';
-import CatalogSidebar from './../components/CatalogSideBar.vue';
+import Spinner from '@/components/Spinner.vue';
+import CatalogSidebar from '@/components/CatalogSideBar.vue';
 
 const productStore = useProductStore();
 const productRef = ref([]);

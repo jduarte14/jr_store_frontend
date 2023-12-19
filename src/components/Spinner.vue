@@ -1,4 +1,4 @@
-<script lagn="ts" setup>
+<script lang="ts" setup>
 defineProps({
     message: {
         type: String,
