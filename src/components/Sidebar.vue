@@ -24,6 +24,7 @@ defineProps({
         </div>
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about">About</RouterLink>
+        <RouterLink to="/catalog">Catalog</RouterLink>
     </aside>
     <div :class="sidebar ? 'active' : ''" @click="toggleSidebar" class="overlay" />
 </template>
