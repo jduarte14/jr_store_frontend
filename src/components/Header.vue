@@ -20,10 +20,10 @@ const toggleSidebar = () => {
             <nav>
                 <RouterLink to="/">Home</RouterLink>
                 <RouterLink to="/about">About</RouterLink>
-                <div class="logo">
+                <RouterLink to="/" class="logo">
                     <p>Javier Rebora</p>
-                </div>
-                <RouterLink to="/">Home</RouterLink>
+                </RouterLink>
+                <RouterLink to="/catalog">Catalog</RouterLink>
                 <RouterLink to="/about">About</RouterLink>
             </nav>
         </div>
@@ -92,7 +92,7 @@ a {
     letter-spacing: 1.2px;
 }
 
-a::after {
+a:not(.logo)::after {
     position: absolute;
     left: 0;
     right: 0;

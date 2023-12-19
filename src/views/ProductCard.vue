@@ -5,6 +5,9 @@ import { useProductStore } from '@/stores/productStore';
 import { Product } from './../types/types';
 import Spinner from './../components/Spinner.vue';
 import { Icon } from '@iconify/vue';
+import { Swiper, SwiperSlide } from 'swiper/vue';
+import 'swiper/css';
+import 'swiper/css/navigation';
 
 const productData = ref<Product>({});
 const loading = ref<boolean>(true);
@@ -32,11 +35,7 @@ const toggleCharacteristicAccordion = () => {
 };
 
 
-import { Swiper, SwiperSlide } from 'swiper/vue';
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
-import 'swiper/css/scrollbar';
+
 const swiperBreakPoints = {
     320: {
         slidesPerView: 1,
@@ -159,10 +158,24 @@ const swiperBreakPoints = {
         height: auto;
         border-radius: 10px;
     }
-
+    .product_section {
+        border-radius: 10px;
+    }
+    section {
+        max-width: 60%;
+        width: 100%;
+        margin: 0 auto;
+    }
+    .ico {
+        font-size:20px;
+    }
 }
 
 @media (max-width:920px) {
+    .price {
+        font-weight:bold;
+        font-size:1.2em;
+    }
     .product_gallery img {
         width: 100%;
         max-width: max-content;
@@ -174,7 +187,7 @@ const swiperBreakPoints = {
         width: 100%;
         display: grid;
         place-content: center;
-        height: 100vh;
+        height: 70vh;
     }
 }
 
@@ -242,7 +255,6 @@ const swiperBreakPoints = {
     background: white;
     color: black;
     padding: 3%;
-    border-radius: 10px;
 }
 
 h1 {
@@ -258,6 +270,7 @@ p {
     padding: 2px 10px;
     margin-bottom: 20px;
     border-radius: 10px;
+    cursor:pointer;
 }
 
 .charac_box p {
@@ -284,13 +297,5 @@ section {
 .characteristic-leave-active {
     transition: transform 0.3s ease-out;
     transform: scaleY(0);
-}
-
-@media (min-width:921px) {
-    section {
-        max-width: 60%;
-        width: 100%;
-        margin: 0 auto;
-    }
 }
 </style>

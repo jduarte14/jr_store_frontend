@@ -1,5 +1,4 @@
 <script lagn="ts" setup>
-import { defineProps } from 'vue';
 defineProps({
     message: {
         type: String,

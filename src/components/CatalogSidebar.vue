@@ -1,8 +1,7 @@
 <script lang="ts" setup>
-import { RouterLink } from 'vue-router'
 import { Icon } from '@iconify/vue';
 
-defineProps({
+const props = defineProps({
     toggleSidebar: {
         type: Function,
         required: true,
@@ -10,20 +9,34 @@ defineProps({
     sidebar: {
         type: Boolean,
         required: true,
-    }
+    },
+    uniqueCategories: {
+        type: Array as () => string[],
+        required: true,
+    },
+    filters: {
+        type: Object as () => { categories: string[] },
+    },
 })
-
-
 </script>
 
 
 <template>
     <aside :class="sidebar ? 'active' : ''">
         <div class="ico" @click="toggleSidebar">
-            <Icon icon="iconamoon:close" color="white"/>
+            <Icon icon="iconamoon:close" color="white" />
         </div>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
+     <div class="title_box">
+        <b>
+            Categories:
+        </b>
+     </div>
+        <div class="filter_item" v-for="category in uniqueCategories">
+            <span>
+                <input type="checkbox" :value="category" v-model="filters.categories">
+                {{ category }}
+            </span>
+        </div>
     </aside>
     <div :class="sidebar ? 'active' : ''" @click="toggleSidebar" class="overlay" />
 </template>
@@ -37,13 +50,15 @@ defineProps({
 }
 
 @media (max-width:980px) {
+
     .ico {
-        position:absolute;
-        top:10px;
-        right:5px;
-        font-size:35px;
-        font-weight:bold;
+        position: absolute;
+        top: 10px;
+        right: 5px;
+        font-size: 35px;
+        font-weight: bold;
     }
+
     .overlay {
         position: fixed;
         top: 0;
@@ -54,8 +69,7 @@ defineProps({
         z-index: 1;
         opacity: 0;
         transition: 0.3s ease;
-        pointer-events: none;
-        z-index: -1;
+        
     }
 
     .overlay.active {
@@ -64,12 +78,12 @@ defineProps({
     }
 
     aside {
+        z-index:2;
         position: fixed;
         left: 0;
         top: 0;
         height: 100%;
         width: max-content;
-        background-color: var(--color-background);
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -79,6 +93,7 @@ defineProps({
         transform: translateX(-100%);
         transition: 0.3s ease-in-out;
         background: var(--black);
+        color:white;
     }
 
     aside.active {
@@ -97,5 +112,47 @@ defineProps({
     a+a {
         border-top: unset;
     }
+    .filter_item {
+        margin-right: auto;
+        padding: 0 11px;
+        position: relative;
+    }
+    .filter_item input::before {
+        content: '';
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        cursor: pointer;
+    }
+
+    .catalog_box {
+        max-width: 70%;
+        margin: 0 auto;
+    }
+
+    .filter_item span {
+        background: #1f2937;
+        padding: 5px 12px;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        transition: 0.3s ease;
+        display: flex;
+        align-items: center;
+    }
+
+    .filter_item span:hover {
+        background: #64748b;
+    }
+    .title_box {
+        margin-bottom:20px;
+    }
+
+    .title_box b {
+        font-size:1.1em;
+    }
+    
 }
 </style>
