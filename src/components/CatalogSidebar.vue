@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { Icon } from '@iconify/vue';
 
-const props = defineProps({
+ defineProps({
     toggleSidebar: {
         type: Function,
         required: true,
