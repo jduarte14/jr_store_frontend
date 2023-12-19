@@ -3,8 +3,8 @@ import { onMounted, ref, computed } from 'vue';
 import { useProductStore } from './../stores/productStore';
 import { RouterLink } from 'vue-router';
 import { Icon } from '@iconify/vue';
-import Spinner from '@/components/Spinner.vue';
-import CatalogSidebar from '@/components/CatalogSideBar.vue';
+import Spinner from './../components/Spinner.vue';
+import CatalogSidebar from './../components/CatalogSidebar.vue';
 
 const productStore = useProductStore();
 const productRef = ref([]);
@@ -329,4 +329,5 @@ h2 {
     .catalog_box {
         flex-direction: column;
     }
-}</style>
+}
+</style>
