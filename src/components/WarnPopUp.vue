@@ -157,4 +157,10 @@ aside {
 .overlay.active {
     backdrop-filter: blur(5px);
 }
+
+@media (max-width:920px) {
+    .warn_popup b {
+        max-width: 250px;
+    }
+}
 </style>
