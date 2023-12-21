@@ -117,15 +117,17 @@ const swiperBreakPoints = {
 @media (min-width:921px) {
     h1 {
         font-size: 2.4em;
-        margin-bottom:10px;
-        margin-top:15px;
+        margin-bottom: 10px;
+        margin-top: 15px;
     }
+
     .price {
-        font-weight:bold;
-        font-size:25px;
-        margin-top:5px;
-        margin-bottom:5px;
+        font-weight: bold;
+        font-size: 25px;
+        margin-top: 5px;
+        margin-bottom: 5px;
     }
+
     .product_card {
         max-width: 50%;
         width: 100%;
@@ -158,28 +160,36 @@ const swiperBreakPoints = {
         height: auto;
         border-radius: 10px;
     }
+
     .product_section {
         border-radius: 10px;
     }
+
     section {
         max-width: 60%;
         width: 100%;
         margin: 0 auto;
     }
+
     .ico {
-        font-size:20px;
+        font-size: 20px;
     }
 }
 
 @media (max-width:920px) {
-    .price {
-        font-weight:bold;
-        font-size:1.2em;
+    .product_gallery {
+        padding: calc(1.5 * 2vw);
     }
+    .price {
+        font-weight: bold;
+        font-size: 1.2em;
+    }
+
     .product_gallery img {
         width: 100%;
         max-width: max-content;
         height: auto;
+        border-radius:10px;
     }
 
     .loading_section {
@@ -190,6 +200,7 @@ const swiperBreakPoints = {
         height: 70vh;
     }
 }
+
 
 .buy_button {
     background: var(--black);
@@ -270,7 +281,7 @@ p {
     padding: 2px 10px;
     margin-bottom: 20px;
     border-radius: 10px;
-    cursor:pointer;
+    cursor: pointer;
 }
 
 .charac_box p {

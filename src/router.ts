@@ -3,17 +3,37 @@ import Home from './views/Home.vue';
 import ProductCard from './views/ProductCard.vue';
 import Catalog from './views/Catalog.vue';
 import ErrorPage from './views/404.vue';
+import Login from './views/authentication/Login.vue';
+import Dashboard from './views/Dashboard.vue';
 
-const routes: Array<{ path: string; component: any }> = [
+const routes = [
   { path: '/', component: Home },
   { path: '/product/:id', component: ProductCard },
   { path: '/catalog', component: Catalog },
-  { path: '/:pathMatch(.*)*', component: ErrorPage }
+  { path: '/login', component: Login },
+  { path: '/dashboard', component: Dashboard, meta: { requiresAuth: true } },
+  { path: '/:pathMatch(.*)*', component: ErrorPage },
 ];
 
 const router = createRouter({
   history: createWebHistory(),
   routes
 });
+
+
+router.beforeEach((to, from, next) => {
+  if (to.meta.requiresAuth) {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      next('/login');
+    } else {
+      next();
+    }
+  } else {
+    next(); 
+  }
+});
+
+
 
 export default router;
