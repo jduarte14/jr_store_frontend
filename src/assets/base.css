@@ -4,6 +4,11 @@
 
 :root {
   --black : #020617;
+  --gray : #fdfdfd;
+  --blueGray : #33323e;
+  --green : #2ec4b6;
+  --red : #f03e3e;
+  --slate : #1f2937;
 }
 
 body {

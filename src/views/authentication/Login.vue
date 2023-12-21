@@ -64,8 +64,8 @@ const handleSubmit = async (e) => {
         </aside>
     
     </section>
-        <WarnPopUp v-if="successPopUp" icon="success" :state="successPopUp" warnTitle="Logged" warnMessage="Now you can access to the dashboard" buttonOneText="Accept" :firstFunction="handleSuccessPopUp"/>
-        <WarnPopUp v-if="rejectedPopUp " icon="error" :state="rejectedPopUp" warnTitle="Error" warnMessage="There was an error whit the authentication" buttonOneText="Accept" :firstFunction="handleRejectedPopUp"/>
+        <WarnPopUp v-if="successPopUp" icon="success" warnTitle="Logged" warnMessage="Now you can access to the dashboard" buttonOneText="Accept" :firstFunction="handleSuccessPopUp"/>
+        <WarnPopUp v-if="rejectedPopUp " icon="error"  warnTitle="Error" warnMessage="There was an error whit the authentication" buttonOneText="Accept" :firstFunction="handleRejectedPopUp"/>
 
 </template>
 <style scoped>

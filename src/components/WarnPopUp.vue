@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { Icon } from '@iconify/vue';
+import { onMounted, ref } from 'vue';
+const active = ref(false);
 defineProps({
     icon: String,
-    state: Boolean,
     warnTitle: String,
     warnMessage: String,
     firstFunction: Function,
@@ -10,27 +11,34 @@ defineProps({
     buttonOneText: String,
     buttonTwoText: String,
 })
+
+onMounted(() => {
+    setTimeout(() => {
+        active.value = true
+    }, 100)
+})
+
 </script>
 <template >
-        <aside>
-            <div class="warn_popup" :class="state ? 'active' : 'hide'">
-                <div class="icon" v-if="icon === 'success'">
-                    <div class="icon_container">
-                        <Icon icon="ooui:success" color="#84cc16" class="success" />
-                    </div>
+    <aside>
+        <div class="warn_popup" :class="active ? 'active' : ''">
+            <div class="icon" v-if="icon === 'success'">
+                <div class="icon_container">
+                    <Icon icon="ooui:success" color="#84cc16" class="success" />
                 </div>
-                <div class="icon" v-if="icon === 'error'">
-                    <div class="icon_container">
-                        <Icon icon="pepicons-pop:exclamation" color="#efefef" class="error" />
-                    </div>
-                </div>
-                <h2 v-if="warnTitle">{{ warnTitle }}</h2>
-                <b v-if="warnMessage">{{ warnMessage }}</b>
-                <button v-if="firstFunction" @click="firstFunction">{{ buttonOneText }}</button>
-                <button v-if="secondFunction" @click="secondFunction">{{ buttonTwoText }}</button>
             </div>
-        </aside>
-    <div class="overlay" />
+            <div class="icon" v-if="icon === 'error'">
+                <div class="icon_container">
+                    <Icon icon="pepicons-pop:exclamation" color="#efefef" class="error" />
+                </div>
+            </div>
+            <h2 v-if="warnTitle">{{ warnTitle }}</h2>
+            <b v-if="warnMessage">{{ warnMessage }}</b>
+            <button v-if="firstFunction" @click="firstFunction">{{ buttonOneText }}</button>
+            <button v-if="secondFunction" @click="secondFunction">{{ buttonTwoText }}</button>
+        </div>
+    </aside>
+    <div class="overlay" :class="active ? 'active' : ''" />
 </template>
 <style scoped>
 .icon {
@@ -65,7 +73,6 @@ defineProps({
 }
 
 .overlay {
-    backdrop-filter: blur(5px);
     position: fixed;
     top: 0;
     left: 0;
@@ -132,17 +139,22 @@ aside {
     align-items: center;
     margin: 0 auto;
     z-index: 2;
-    opacity:0;
-    transition:0.5s ease;
+
 
 }
 
-.warn_popup.active {
-    opacity: 1;
-  
-}
-
-.warn_popup.hide {
+.warn_popup,
+.overlay {
     opacity: 0;
+    transition: 0.5s ease;
+}
+
+.warn_popup.active,
+.overlay.active {
+    opacity: 1;
+}
+
+.overlay.active {
+    backdrop-filter: blur(5px);
 }
 </style>

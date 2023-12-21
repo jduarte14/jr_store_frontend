@@ -5,6 +5,7 @@ import Catalog from './views/Catalog.vue';
 import ErrorPage from './views/404.vue';
 import Login from './views/authentication/Login.vue';
 import Dashboard from './views/Dashboard.vue';
+import DasboardCatalog from './components/dashboard/productCatalog.vue';
 
 const routes = [
   { path: '/', component: Home },
@@ -12,6 +13,7 @@ const routes = [
   { path: '/catalog', component: Catalog },
   { path: '/login', component: Login },
   { path: '/dashboard', component: Dashboard, meta: { requiresAuth: true } },
+  {path:'/dashboard/catalog', component: DasboardCatalog, meta: { requiresAuth: true }},
   { path: '/:pathMatch(.*)*', component: ErrorPage },
 ];
 
