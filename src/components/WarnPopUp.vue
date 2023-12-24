@@ -156,6 +156,7 @@ aside {
 
 .overlay.active {
     backdrop-filter: blur(5px);
+    background:rgba(0,0,0,0.3);
 }
 
 @media (max-width:920px) {

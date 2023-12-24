@@ -25,18 +25,17 @@ onMounted(() => {
 </script>
 <template>
     <section class="dashboard_catalog" v-if="productRef">
-        <div class="top_row">
+        <div class="top_row" v-if="productRef">
             <div class="searchbox_container">
                 <input type="search" class="search_box" placeholder="filter your product" />
                 <div class="icon_btn">
-                    <Icon icon="iconamoon:search-bold" color="white"/>
+                    <Icon icon="iconamoon:search-bold" color="white" />
                 </div>
             </div>
             <div>
-                <RouterLink class="catalog_button" to="/dashboard/catalog">Create product</RouterLink>
+                <RouterLink class="catalog_button" to="/dashboard/catalog/create">Create product</RouterLink>
             </div>
         </div>
-
         <div class="catalog">
             <div class="catalog_item" v-for="product in productRef" :key="product.id">
                 <img :src="product.image" alt="">
@@ -55,11 +54,12 @@ onMounted(() => {
 
 <style scoped>
 .searchbox_container {
-    display:flex;
+    display: flex;
     align-items: center;
 }
+
 .icon_btn {
-    padding:5px 0;
+    padding: 5px 0;
     height: 35px;
     display: flex;
     align-items: center;
@@ -67,22 +67,25 @@ onMounted(() => {
     position: relative;
     right: 26px;
     justify-content: center;
-    cursor:pointer;
+    cursor: pointer;
 }
+
 .search_box {
-    padding:10px 20px;
-    border-radius:10px;
-    background:var(--slate);
-    color:white;
-    height:45px;
-    border:unset;
+    padding: 10px 20px;
+    border-radius: 10px;
+    background: var(--slate);
+    color: white;
+    height: 45px;
+    border: unset;
 }
+
 .search_box::placeholder {
-    color:white;
-    font-weight:bold;
+    color: white;
+    font-weight: bold;
     font-size: 14px;
     letter-spacing: 0.8px;
 }
+
 .row {
     display: flex;
     align-items: center;
@@ -91,8 +94,10 @@ onMounted(() => {
 .top_row {
     display: flex;
     justify-content: space-between;
-    padding-top:20px;
+    padding-top: 20px;
+    padding-bottom:30px;
 }
+
 .row p+p {
     margin-left: 10px;
 }
@@ -154,7 +159,5 @@ section {
 
     .top_row .catalog_button {
         margin-right: 30px;
-        margin-bottom: 30px;
     }
-}
-</style>
+}</style>

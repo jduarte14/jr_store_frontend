@@ -25,7 +25,7 @@ const handleRejectedPopUp = () => {
   handlePopUp('rejected');
 };
 
-const handleSubmit = async (e) => {
+const handleSubmit = async (e:Event) => {
     try {
         e.preventDefault();
         const userData = new URLSearchParams();
