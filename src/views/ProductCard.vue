@@ -148,7 +148,7 @@ const swiperBreakPoints = {
     }
 
     .product_gallery {
-        max-width: 500px;
+        max-width: 50%;
         margin-right: 30px;
 
     }
@@ -198,6 +198,9 @@ const swiperBreakPoints = {
         display: grid;
         place-content: center;
         height: 70vh;
+    }
+    .logo {
+        z-index:-1;
     }
 }
 

@@ -172,6 +172,8 @@ body {
   .product_box a {
     padding:0;
     margin:0;
+    max-width:max-content;
+    width:100%;
   }
 }
 </style>

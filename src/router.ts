@@ -7,6 +7,7 @@ import Login from './views/authentication/Login.vue';
 import Dashboard from './views/Dashboard.vue';
 import DasboardCatalog from './components/dashboard/productCatalog.vue';
 import Create from './components/dashboard/Create.vue';
+import Patch from './components/dashboard/Patch.vue';
 
 const routes = [
   { path: '/', component: Home },
@@ -16,6 +17,7 @@ const routes = [
   { path: '/dashboard', component: Dashboard, meta: { requiresAuth: true } },
   { path: '/dashboard/catalog', component: DasboardCatalog, meta: { requiresAuth: true } },
   { path: '/dashboard/catalog/create', component: Create, meta: { requiresAuth: true } },
+  { path: '/dashboard/catalog/edit/:id', component: Patch, meta: { requiresAuth: true } },
   { path: '/:pathMatch(.*)*', component: ErrorPage },
 ];
 

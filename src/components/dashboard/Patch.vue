@@ -1,12 +1,32 @@
-<script lang="ts" setup>
-import { ref } from 'vue';
+<script setup lang="ts">
+import { ref, onMounted } from 'vue';
 import { Icon } from '@iconify/vue';
 import { fetchData } from './../../helpers/fetchHelper';
-import WarnPopup from './../../components/WarnPopUp.vue';
-
+import { useRoute } from 'vue-router';
+import { useProductStore } from '@/stores/productStore';
+import WarnPopup from '@/components/WarnPopUp.vue';
 
 const successPopUp = ref(false);
 const rejectedPopUp = ref(false);
+
+const id = useRoute().params.id;
+const getProductData = async () => {
+    try {
+        const productStore = useProductStore();
+        let productResponse = await productStore.getSingleProduct(id);
+        console.log(productResponse);
+        data.value = productResponse.product;
+        imageData.value.image.previewUrl = productResponse.product.image;
+        imageData.value.image2.previewUrl = productResponse.product.image2;
+        imageData.value.image3.previewUrl = productResponse.product.image3;
+        imageData.value.image4.previewUrl = productResponse.product.image4;
+        imageData.value.image5.previewUrl = productResponse.product.image5;
+    }
+    catch (error) {
+        console.error(error.message);
+    }
+}
+
 const handlePopUp = (action: string) => {
     if (action === 'success') {
         successPopUp.value = !successPopUp.value;
@@ -56,6 +76,7 @@ const imageData = ref({
     },
 })
 
+
 const onImageChange = (event: Event, key: string): void => {
     const inputElement = event.currentTarget as HTMLInputElement;
     const file = inputElement.files?.[0];
@@ -90,16 +111,15 @@ const createFormData = () => {
 
 
 const postProduct = async (e: Event) => {
-
     try {
         e.preventDefault();
         const productData = createFormData();
-        const response = await fetchData(`https://jrstore-production.up.railway.app/api/products`, 'POST', productData);
-        if (response.status != "success") {
-            handleRejectedPopUp();
+        const response = await fetchData(`https://jrstore-production.up.railway.app/api/products/${id}`, 'PATCH', productData);
+        if (response.status === "success") {
+            handleSuccessPopUp();
         }
         else {
-            handleSuccessPopUp();
+            handleRejectedPopUp();
         }
     }
     catch (error) {
@@ -108,10 +128,14 @@ const postProduct = async (e: Event) => {
 
 }
 
+onMounted(() => {
+    getProductData();
+});
+
 </script>
 <template>
     <section>
-        <h1>Create your product</h1>
+        <h1>Edit your product</h1>
         <div class="product_container">
             <form @submit="postProduct">
                 <b>Product Name</b>
@@ -128,12 +152,14 @@ const postProduct = async (e: Event) => {
                 <textarea v-model="data.characteristic" cols="30" rows="10"></textarea>
                 <div class="row">
                     <b>Image 1</b>
-                    <input type="file" @change="onImageChange($event, 'image')" required />
+              
+                    <input type="file" @change="onImageChange($event, 'image')" :value="imageData.image.previewUrl" />
                     <div class="preview_image">
                         <div class="remove_icon" v-if="imageData.image.previewUrl" @click="removeImage('image')">
                             <Icon icon="zondicons:close-solid" color="red" />
                         </div>
                         <img :src="imageData.image.previewUrl" v-if="imageData.image.previewUrl" />
+                     
                     </div>
                 </div>
                 <div class="row">
@@ -168,7 +194,7 @@ const postProduct = async (e: Event) => {
                 </div>
                 <div class="row">
                     <b>Image 5</b>
-                    <input type="file" @change="onImageChange($event, 'image4')" />
+                    <input type="file" @change="onImageChange($event, 'image5')" />
                     <div class="preview_image">
                         <div class="remove_icon" v-if="imageData.image5.previewUrl" @click="removeImage('image5')">
                             <Icon icon="zondicons:close-solid" color="red" />
@@ -177,7 +203,7 @@ const postProduct = async (e: Event) => {
                     </div>
                 </div>
 
-                <input type="submit" value="Send" class="btn_enviar">
+                <input type="submit" value="Edit" class="btn_enviar">
 
             </form>
 
@@ -203,13 +229,13 @@ const postProduct = async (e: Event) => {
                 <img :src="imageData.image5.previewUrl" v-if="imageData.image5.previewUrl" />
             </div>
         </div>
+
     </section>
-    <WarnPopup v-if="successPopUp" icon="success" warnTitle="Product succesfully created"
-        warnMessage="The product has been added to the catalog" buttonOneText="Accept"
-        :firstFunction="handleSuccessPopUp" />
-    <WarnPopup v-if="rejectedPopUp" icon="error" warnTitle="Error"
-        warnMessage="There was an error while creating the product" buttonOneText="Accept"
-        :firstFunction="handleRejectedPopUp" />
+            <WarnPopup v-if="successPopUp" icon="success" warnTitle="Product succesfully created"
+            warnMessage="The product has been modified" buttonOneText="Accept" :firstFunction="handleSuccessPopUp" />
+        <WarnPopup v-if="rejectedPopUp" icon="error" warnTitle="Error"
+            warnMessage="There was an error while modifying the product" buttonOneText="Accept"
+            :firstFunction="handleRejectedPopUp" />
 </template>
 <style scoped>
 h1 {

@@ -37,13 +37,13 @@ onMounted(() => {
             </div>
         </div>
         <div class="catalog">
-            <div class="catalog_item" v-for="product in productRef" :key="product.id">
+            <div class="catalog_item" v-for="product in productRef" :key="product._id">
                 <img :src="product.image" alt="">
                 <div class="row">
                     <p>{{ product.name }}</p>
                     <p>Є{{ product.price }}</p>
                 </div>
-                <RouterLink class="catalog_button" to="/dashboard/catalog">Manage product</RouterLink>
+                <RouterLink class="catalog_button" :to="`/dashboard/catalog/edit/${product._id}`">Manage product</RouterLink>
             </div>
         </div>
     </section>
