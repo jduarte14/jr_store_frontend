@@ -5,25 +5,33 @@ import { fetchData } from './../../helpers/fetchHelper';
 import { useRoute } from 'vue-router';
 import { useProductStore } from '@/stores/productStore';
 import WarnPopup from '@/components/WarnPopUp.vue';
+import Spinner from '../Spinner.vue';
 
 const successPopUp = ref(false);
 const rejectedPopUp = ref(false);
+const loading = ref(false);
 
 const id = useRoute().params.id;
 const getProductData = async () => {
     try {
         const productStore = useProductStore();
         let productResponse = await productStore.getSingleProduct(id);
-        console.log(productResponse);
         data.value = productResponse.product;
         imageData.value.image.previewUrl = productResponse.product.image;
         imageData.value.image2.previewUrl = productResponse.product.image2;
         imageData.value.image3.previewUrl = productResponse.product.image3;
         imageData.value.image4.previewUrl = productResponse.product.image4;
         imageData.value.image5.previewUrl = productResponse.product.image5;
+        handleLoading(imageData.value, data.value);
     }
     catch (error) {
         console.error(error.message);
+    }
+}
+
+const handleLoading = (imageData, productData) => {
+    if (imageData && productData) {
+        loading.value = false;
     }
 }
 
@@ -85,6 +93,7 @@ const onImageChange = (event: Event, key: string): void => {
         const imageURL = URL.createObjectURL(file);
         imageData.value[key].file = file;
         imageData.value[key].previewUrl = imageURL;
+        console.log(imageData);
     }
 };
 
@@ -110,7 +119,7 @@ const createFormData = () => {
 }
 
 
-const postProduct = async (e: Event) => {
+const patchProduct = async (e: Event) => {
     try {
         e.preventDefault();
         const productData = createFormData();
@@ -130,112 +139,116 @@ const postProduct = async (e: Event) => {
 
 onMounted(() => {
     getProductData();
+    console.log(imageData);
 });
 
 </script>
 <template>
-    <section>
-        <h1>Edit your product</h1>
-        <div class="product_container">
-            <form @submit="postProduct">
-                <b>Product Name</b>
-                <input type="text" v-model="data.name" required>
-                <b>Product description</b>
-                <textarea v-model="data.description" cols="30" rows="10" required></textarea>
-                <b>Category</b>
-                <input type="text" v-model="data.category" required />
-                <b>Subcategory</b>
-                <input type="text" v-model="data.subcategory" required />
-                <b>Price</b>
-                <input type="number" v-model="data.price" required />
-                <b>Characteristics</b>
-                <textarea v-model="data.characteristic" cols="30" rows="10"></textarea>
-                <div class="row">
-                    <b>Image 1</b>
-              
-                    <input type="file" @change="onImageChange($event, 'image')" :value="imageData.image.previewUrl" />
-                    <div class="preview_image">
-                        <div class="remove_icon" v-if="imageData.image.previewUrl" @click="removeImage('image')">
-                            <Icon icon="zondicons:close-solid" color="red" />
+    <main v-if="!loading">
+        <section>
+            <h1>Edit your product</h1>
+            <div class="product_container">
+                <form @submit="patchProduct">
+                    <b>Product Name</b>
+                    <input type="text" v-model="data.name" required>
+                    <b>Product description</b>
+                    <textarea v-model="data.description" cols="30" rows="10" required></textarea>
+                    <b>Category</b>
+                    <input type="text" v-model="data.category" required />
+                    <b>Subcategory</b>
+                    <input type="text" v-model="data.subcategory" required />
+                    <b>Price</b>
+                    <input type="number" v-model="data.price" required />
+                    <b>Characteristics</b>
+                    <textarea v-model="data.characteristic" cols="30" rows="10"></textarea>
+                    <div class="row">
+                        <b>Image 1</b>
+                        <input type="file" @change="onImageChange($event, 'image')" :value="imageData.image.previewUrl" />
+                        <div class="preview_image">
+                            <div class="remove_icon" v-if="imageData.image.previewUrl" @click="removeImage('image')">
+                                <Icon icon="zondicons:close-solid" color="red" />
+                            </div>
+                            <img :src="imageData.image.previewUrl" v-if="imageData.image.previewUrl" />
                         </div>
-                        <img :src="imageData.image.previewUrl" v-if="imageData.image.previewUrl" />
-                     
                     </div>
-                </div>
-                <div class="row">
-                    <b>Image 2</b>
-                    <input type="file" @change="onImageChange($event, 'image2')" />
-                    <div class="preview_image">
-                        <div class="remove_icon" v-if="imageData.image2.previewUrl" @click="removeImage('image2')">
-                            <Icon icon="zondicons:close-solid" color="red" />
+                    <div class="row">
+                        <b>Image 2</b>
+                        <input type="file" @change="onImageChange($event, 'image2')" />
+                        <div class="preview_image">
+                            <div class="remove_icon" v-if="imageData.image2.previewUrl" @click="removeImage('image2')">
+                                <Icon icon="zondicons:close-solid" color="red" />
+                            </div>
+                            <img :src="imageData.image2.previewUrl" v-if="imageData.image2.previewUrl" />
                         </div>
-                        <img :src="imageData.image2.previewUrl" v-if="imageData.image2.previewUrl" />
                     </div>
-                </div>
-                <div class="row">
-                    <b>Image 3</b>
-                    <input type="file" @change="onImageChange($event, 'image3')" />
-                    <div class="preview_image">
-                        <div class="remove_icon" v-if="imageData.image3.previewUrl" @click="removeImage('image3')">
-                            <Icon icon="zondicons:close-solid" color="red" />
+                    <div class="row">
+                        <b>Image 3</b>
+                        <input type="file" @change="onImageChange($event, 'image3')" />
+                        <div class="preview_image">
+                            <div class="remove_icon" v-if="imageData.image3.previewUrl" @click="removeImage('image3')">
+                                <Icon icon="zondicons:close-solid" color="red" />
+                            </div>
+                            <img :src="imageData.image3.previewUrl" v-if="imageData.image3.previewUrl" />
                         </div>
-                        <img :src="imageData.image3.previewUrl" v-if="imageData.image3.previewUrl" />
                     </div>
-                </div>
-                <div class="row">
-                    <b>Image 4</b>
-                    <input type="file" @change="onImageChange($event, 'image4')" />
-                    <div class="preview_image">
-                        <div class="remove_icon" v-if="imageData.image4.previewUrl" @click="removeImage('image4')">
-                            <Icon icon="zondicons:close-solid" color="red" />
+                    <div class="row">
+                        <b>Image 4</b>
+                        <input type="file" @change="onImageChange($event, 'image4')" />
+                        <div class="preview_image">
+                            <div class="remove_icon" v-if="imageData.image4.previewUrl" @click="removeImage('image4')">
+                                <Icon icon="zondicons:close-solid" color="red" />
+                            </div>
+                            <img :src="imageData.image4.previewUrl" v-if="imageData.image4.previewUrl" />
                         </div>
-                        <img :src="imageData.image4.previewUrl" v-if="imageData.image4.previewUrl" />
                     </div>
-                </div>
-                <div class="row">
-                    <b>Image 5</b>
-                    <input type="file" @change="onImageChange($event, 'image5')" />
-                    <div class="preview_image">
-                        <div class="remove_icon" v-if="imageData.image5.previewUrl" @click="removeImage('image5')">
-                            <Icon icon="zondicons:close-solid" color="red" />
+                    <div class="row">
+                        <b>Image 5</b>
+                        <input type="file" @change="onImageChange($event, 'image5')" />
+                        <div class="preview_image">
+                            <div class="remove_icon" v-if="imageData.image5.previewUrl" @click="removeImage('image5')">
+                                <Icon icon="zondicons:close-solid" color="red" />
+                            </div>
+                            <img :src="imageData.image5.previewUrl" v-if="imageData.image5.previewUrl" />
                         </div>
-                        <img :src="imageData.image5.previewUrl" v-if="imageData.image5.previewUrl" />
                     </div>
+
+                    <input type="submit" value="Edit" class="btn_enviar">
+
+                </form>
+
+            </div>
+
+        </section>
+        <section class="gallery_section">
+            <div class="gallery_row"
+                v-if="imageData.image.previewUrl || imageData.image2.previewUrl || imageData.image3.previewUrl || imageData.image4.previewUrl || imageData.image5.previewUrl">
+                <div class="image_box">
+                    <img :src="imageData.image.previewUrl" v-if="imageData.image.previewUrl" />
                 </div>
-
-                <input type="submit" value="Edit" class="btn_enviar">
-
-            </form>
-
-        </div>
-
-    </section>
-    <section class="gallery_section">
-        <div class="gallery_row"
-            v-if="imageData.image.previewUrl || imageData.image2.previewUrl || imageData.image3.previewUrl || imageData.image4.previewUrl || imageData.image5.previewUrl">
-            <div class="image_box">
-                <img :src="imageData.image.previewUrl" v-if="imageData.image.previewUrl" />
+                <div class="image_box">
+                    <img :src="imageData.image2.previewUrl" v-if="imageData.image2.previewUrl" />
+                </div>
+                <div class="image_box">
+                    <img :src="imageData.image3.previewUrl" v-if="imageData.image3.previewUrl" />
+                </div>
+                <div class="image_box">
+                    <img :src="imageData.image4.previewUrl" v-if="imageData.image4.previewUrl" />
+                </div>
+                <div class="image_box">
+                    <img :src="imageData.image5.previewUrl" v-if="imageData.image5.previewUrl" />
+                </div>
             </div>
-            <div class="image_box">
-                <img :src="imageData.image2.previewUrl" v-if="imageData.image2.previewUrl" />
-            </div>
-            <div class="image_box">
-                <img :src="imageData.image3.previewUrl" v-if="imageData.image3.previewUrl" />
-            </div>
-            <div class="image_box">
-                <img :src="imageData.image4.previewUrl" v-if="imageData.image4.previewUrl" />
-            </div>
-            <div class="image_box">
-                <img :src="imageData.image5.previewUrl" v-if="imageData.image5.previewUrl" />
-            </div>
-        </div>
 
-    </section>
-            <WarnPopup v-if="successPopUp" icon="success" warnTitle="Product succesfully created"
+        </section>
+        <WarnPopup v-if="successPopUp" icon="success" warnTitle="Product succesfully created"
             warnMessage="The product has been modified" buttonOneText="Accept" :firstFunction="handleSuccessPopUp" />
         <WarnPopup v-if="rejectedPopUp" icon="error" warnTitle="Error"
             warnMessage="There was an error while modifying the product" buttonOneText="Accept"
             :firstFunction="handleRejectedPopUp" />
+    </main>
+    <main class="loading_content" v-else>
+        <Spinner color="#fff" />
+    </main>
 </template>
 <style scoped>
 h1 {
