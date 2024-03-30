@@ -2,13 +2,13 @@
 import { ref, onMounted } from 'vue'
 import { Icon } from '@iconify/vue'
 import { fetchData } from '@/helpers/fetchHelper'
-import { useRoute } from 'vue-router'
+import { useRoute, RouterLink } from 'vue-router'
 import { useBannerStore } from '@/stores/bannerStore'
 import WarnPopup from '@/components/WarnPopUp.vue'
 import Spinner from '../../Spinner.vue'
 
-const successPopUp = ref(false)
-const rejectedPopUp = ref(false)
+const popup = ref({})
+const deleted = ref('')
 const loading = ref(false)
 
 const id = useRoute().params.id
@@ -25,6 +25,20 @@ const getBannerData = async () => {
   }
 }
 
+const deleteBanner = async () => {
+  try {
+    const bannerStore = useBannerStore()
+    const response = await bannerStore.deleteBanner(id)
+    if (response.status === 200) {
+      handlePopUp('confirmed')
+    } else {
+      handlePopUp('error')
+    }
+  } catch (error) {
+    console.error(error.message)
+  }
+}
+
 const handleLoading = (imageData, bannerData) => {
   if (imageData && bannerData) {
     loading.value = false
@@ -32,19 +46,60 @@ const handleLoading = (imageData, bannerData) => {
 }
 
 const handlePopUp = (action) => {
-  if (action === 'success') {
-    successPopUp.value = !successPopUp.value
-  } else if (action === 'rejected') {
-    rejectedPopUp.value = !rejectedPopUp.value
+  switch (action) {
+    case 'success':
+      popup.value = {
+        icon: 'success',
+        warnTitle: 'Banner modified successfully',
+        warnMessage: 'You can see the changes at the site',
+        buttonOneText: 'Accept',
+        buttonTwoText: null,
+        firstFunction: hidePopup,
+        secondFunction: null
+      }
+      break
+
+    case 'delete':
+      popup.value = {
+        icon: 'error',
+        warnTitle: 'Are you sure you want to delete this banner?',
+        warnMessage: "This action can't be undone",
+        buttonOneText: 'Confirm',
+        buttonTwoText: 'Cancel',
+        firstFunction: deleteBanner,
+        secondFunction: hidePopup
+      }
+      break
+    case 'error':
+      popup.value = {
+        icon: 'error',
+        warnTitle: 'Error',
+        warnMessage: 'There was an error while modifying the banner',
+        buttonOneText: 'Accept',
+        buttonTwoText: null,
+        firstFunction: hidePopup,
+        secondFunction: null
+      }
+      break
+    case 'confirmed':
+      popup.value = {
+        icon: 'success',
+        warnTitle: 'Banner deleted succesfully',
+        warnMessage: null,
+        buttonOneText: 'Accept',
+        buttonTwoText: null,
+        firstFunction: hidePopup,
+        secondFunction: null
+      }
+      deleted.value = true
+      break
+    default:
+      popup.value = {}
   }
 }
 
-const handleSuccessPopUp = () => {
-  handlePopUp('success')
-}
-
-const handleRejectedPopUp = () => {
-  handlePopUp('rejected')
+const hidePopup = () => {
+  popup.value = {}
 }
 
 const data = ref({
@@ -125,9 +180,9 @@ const patchBanner = async (e) => {
       bannerData
     )
     if (response.status === 'success') {
-      handleSuccessPopUp()
+      handlePopUp('success')
     } else {
-      handleRejectedPopUp()
+      handlePopUp('error')
     }
   } catch (error) {
     throw new Error(error.message)
@@ -141,8 +196,15 @@ onMounted(() => {
 <template>
   <main v-if="!loading">
     <section>
-      <h1>Edit your banner</h1>
-      <div class="product_container">
+      <h1>{{ deleted ? 'Banner succesfully deleted' : 'Edit your banner' }}</h1>
+      <div v-if="deleted" class="deleted_info">
+        <p>The banner no longer exists, the banner catalog is updated.</p>
+        <RouterLink to="/dashboard/banners">
+          <Icon icon="material-symbols:arrow-back-ios-rounded" /> Go back
+        </RouterLink>
+      </div>
+
+      <div class="product_container" :class="deleted ? 'product_deleted' : null">
         <form @submit="patchBanner">
           <b>Banner Name</b>
           <input type="text" v-model="data.name" />
@@ -159,7 +221,7 @@ onMounted(() => {
           <b>Banner description</b>
           <input type="text" v-model="data.description" />
           <b>Banner Link</b>
-          <input type="number" v-model="data.link" />
+          <input type="text" v-model="data.link" />
           <b>Banner link text</b>
           <textarea v-model="data.link_text" cols="30" rows="10"></textarea>
           <div class="row">
@@ -190,11 +252,14 @@ onMounted(() => {
               <img :src="imageData.mobile_image" />
             </div>
           </div>
-          <input type="submit" value="Create" class="btn_enviar" />
+          <div class="row_buttons">
+            <input type="submit" value="Edit" class="btn_enviar" />
+            <button class="btn_enviar" @click="handlePopUp('delete')">Delete banner</button>
+          </div>
         </form>
       </div>
     </section>
-    <section class="gallery_section">
+    <section class="gallery_section" :class="deleted ? 'product_deleted' : null">
       <div class="gallery_row" v-if="imageData.desktop_image || imageData.mobile_image">
         <div class="image_box">
           <img :src="imageData.desktop_image" v-if="imageData.desktop_image" />
@@ -204,28 +269,24 @@ onMounted(() => {
         </div>
       </div>
     </section>
-    <WarnPopup
-      v-if="successPopUp"
-      icon="success"
-      warnTitle="Banner modified successfully"
-      warnMessage="You can see the changes at the site"
-      buttonOneText="Accept"
-      :firstFunction="handleSuccessPopUp"
-    />
-    <WarnPopup
-      v-if="rejectedPopUp"
-      icon="error"
-      warnTitle="Error"
-      warnMessage="There was an error while modifying the banner"
-      buttonOneText="Accept"
-      :firstFunction="handleRejectedPopUp"
-    />
+    <WarnPopup v-if="JSON.stringify(popup) !== '{}'" v-bind="popup" />
   </main>
   <main class="loading_content" v-else>
     <Spinner color="#fff" />
   </main>
 </template>
 <style scoped>
+section {
+  transition: ease-out 0.6s;
+}
+.product_deleted > * {
+  opacity: 0.3;
+}
+.product_deleted {
+  pointer-events: none;
+  height: 0px;
+  overflow: hidden;
+}
 h1 {
   color: white;
 }
@@ -359,6 +420,33 @@ textarea {
   height: auto;
   border-radius: 10px;
 }
+.deleted_info {
+  font-size: 1.3em;
+  color: white;
+}
+.deleted_info a {
+  display: flex;
+  align-items: center;
+  text-decoration: unset;
+  color: white;
+  font-weight: bold;
+  border-radius: 5px;
+  border: 1px solid white;
+  max-width: max-content;
+  padding: 5px 10px;
+  transition: 0.3s ease;
+  margin-top: 5% !important;
+}
+.deleted_info a:hover {
+  background: white;
+  color: black;
+}
+.deleted_info a svg {
+  color: white;
+}
+.deleted_info a:hover svg {
+  color: black;
+}
 
 @media (min-width: 921px) {
   h1 {
@@ -376,6 +464,19 @@ textarea {
     margin: 0 auto;
     width: 100%;
     margin-bottom: 20px;
+  }
+  section:has(.deleted_info) {
+    padding: 4%;
+    border-radius: 4px;
+    border-top: 4px solid white;
+    border-bottom: 4px solid white;
+    margin-top: 8%;
+  }
+  .row_buttons {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    padding-bottom: 15px;
   }
 }
 

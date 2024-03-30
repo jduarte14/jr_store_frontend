@@ -16,7 +16,6 @@ const Logout = () => {
   userStore.removeUser()
   admin.value = false
   warn.value = false
-  console.log('se ejecuta logout', admin.value, warn.value)
 }
 const handleWarn = () => {
   warn.value = !warn.value
@@ -169,6 +168,7 @@ a:not(.logo)::after {
   cursor: pointer;
   transition: 0.3s ease;
   z-index: 1;
+  border: unset;
 }
 .top_menu .btn:hover {
   opacity: 0.8;
