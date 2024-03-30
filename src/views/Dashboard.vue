@@ -6,7 +6,7 @@ import { RouterLink } from 'vue-router';
         <h1>Dashboard</h1>
         <div class="dashboard_container">
             <div class="box">
-                <p>Banners</p>
+                <RouterLink to="/dashboard/banners/catalog">Banners</RouterLink>
             </div>
             <div class="box ">
                 <p>Pages edition</p>

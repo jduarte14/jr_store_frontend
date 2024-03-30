@@ -39,8 +39,7 @@ const handleSubmit = async (e:Event) => {
             }
         })
         if (response.ok) {
-            const data = await response.json();
-            await localStorage.setItem("token", "user_logged");        
+            await sessionStorage.setItem("token", crypto.randomUUID());        
             handlePopUp('success');
         } else {
             console.error("There was an error whit the authentication");
@@ -95,7 +94,7 @@ aside h2 {
 }
 
 form input {
-    padding: 8px 10px;
+    padding: 10px;
     margin: 5px;
     border-radius: 10px;
     box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);

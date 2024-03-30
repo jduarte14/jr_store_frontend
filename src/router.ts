@@ -5,9 +5,12 @@ import Catalog from './views/Catalog.vue';
 import ErrorPage from './views/404.vue';
 import Login from './views/authentication/Login.vue';
 import Dashboard from './views/Dashboard.vue';
-import DasboardCatalog from './components/dashboard/productCatalog.vue';
+import DashboardCatalog from './components/dashboard/productCatalog.vue';
 import Create from './components/dashboard/Create.vue';
 import Patch from './components/dashboard/Patch.vue';
+import CreateBanner from './components/dashboard/banners/Create.vue';
+import BannersCatalog from './components/dashboard/banners/bannersCatalog.vue';
+import PatchBanner from './components/dashboard/banners/Patch.vue';
 
 const routes = [
   { path: '/', component: Home },
@@ -15,9 +18,13 @@ const routes = [
   { path: '/catalog', component: Catalog },
   { path: '/login', component: Login },
   { path: '/dashboard', component: Dashboard, meta: { requiresAuth: true } },
-  { path: '/dashboard/catalog', component: DasboardCatalog, meta: { requiresAuth: true } },
+  { path: '/dashboard/catalog', component: DashboardCatalog, meta: { requiresAuth: true } },
+  { path: '/dashboard/banners/catalog', component: BannersCatalog, meta: { requiresAuth: true } },
   { path: '/dashboard/catalog/create', component: Create, meta: { requiresAuth: true } },
   { path: '/dashboard/catalog/edit/:id', component: Patch, meta: { requiresAuth: true } },
+  { path: '/dashboard/banners', component: Patch, meta: { requiresAuth: true } },
+  { path: '/dashboard/banners/create', component: CreateBanner, meta: { requiresAuth: true } },
+  { path: '/dashboard/banners/patch/:id', component: PatchBanner, meta: { requiresAuth: true } },
   { path: '/:pathMatch(.*)*', component: ErrorPage },
 ];
 
@@ -29,7 +36,7 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   if (to.meta.requiresAuth) {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     if (!token) {
       next('/login');
     } else {
