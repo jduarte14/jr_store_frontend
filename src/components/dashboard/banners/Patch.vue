@@ -170,9 +170,9 @@ const createFormData = () => {
   return formData
 }
 
-const patchBanner = async (e) => {
+const patchBanner = async () => {
   try {
-    e.preventDefault()
+  
     const bannerData = createFormData()
     const response = await fetchData(
       `https://jrstore-production.up.railway.app/api/banners/${id}`,
@@ -205,7 +205,7 @@ onMounted(() => {
       </div>
 
       <div class="product_container" :class="deleted ? 'product_deleted' : null">
-        <form @submit="patchBanner">
+        <form>
           <b>Banner Name</b>
           <input type="text" v-model="data.name" />
           <b>Banner title</b>
@@ -252,11 +252,11 @@ onMounted(() => {
               <img :src="imageData.mobile_image" />
             </div>
           </div>
-          <div class="row_buttons">
-            <input type="submit" value="Edit" class="btn_enviar" />
-            <button class="btn_enviar" @click="handlePopUp('delete')">Delete banner</button>
-          </div>
         </form>
+        <div class="row_buttons">
+          <button type="submit" value="Edit" class="btn_enviar" @click="patchBanner">Edit</button>
+          <button class="btn_enviar" @click="handlePopUp('delete')">Delete banner</button>
+        </div>
       </div>
     </section>
     <section class="gallery_section" :class="deleted ? 'product_deleted' : null">
