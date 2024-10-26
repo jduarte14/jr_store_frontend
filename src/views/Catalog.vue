@@ -58,15 +58,17 @@ onMounted(() => {
                     <p class="ico" v-if="!categoryAccordeon"> + </p>
                     <p class="ico" v-else> - </p>
                 </div>
-
-                <div class="filter_container" v-show="categoryAccordeon">
-                    <div class="filter_item" v-for="category in uniqueCategories">
-                        <span>
-                            <input type="checkbox" :value="category" v-model="filters.categories">
-                            {{ category }}
-                        </span>
-                    </div>
+                <transition name="height">
+                     <div class="filter_container" v-show="categoryAccordeon">
+                        <div class="filter_item" v-for="category in uniqueCategories">
+                            <span>
+                                <input type="checkbox" :value="category" v-model="filters.categories">
+                                {{ category }}
+                            </span>
+                        </div>
                 </div>
+                </transition>
+               
             </div>
         </aside>
         
@@ -175,6 +177,8 @@ onMounted(() => {
         width: 100%;
         max-width: max-content;
         margin-right: auto;
+        padding-top: 13px;
+        overflow: hidden;
     }
 
 }
@@ -185,25 +189,28 @@ onMounted(() => {
     position: sticky;
     top: 20vh;
     bottom: 0;
+    background: #040f1e;
+    padding: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    border-bottom: 4px solid #1f2937;
 }
-
 .category_accordeon {
     display: flex;
     align-items: center;
     color: white;
     font-weight: bold;
-    border-top: 3px solid white;
-    border-bottom: 3px solid white;
     padding: 8px 0;
     width: 100%;
-    min-width: 15vw;
-    border-right: 3px solid white;
     margin-top: 25px;
 }
 
 .ico {
     margin-left: auto;
     padding-right: 10px;
+    position: absolute;
+    right: 10px;
 }
 
 a {
@@ -222,6 +229,9 @@ a {
     margin: 10px;
     border-radius: 10px;
     height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 
@@ -268,14 +278,22 @@ h2 {
 .category_accordeon {
     color: white;
     font-weight: bold;
-    border-top: 3px solid white;
-    border-bottom: 3px solid white;
     padding: 15px 0;
     width: 100%;
 }
 
 .filter_box {
     color: white;
+}
+.height-enter-active,
+.height-leave-active {
+  transition: height 0.3s ease;
+}
+
+.height-enter-from,
+.height-leave-to {
+  height: 0;
+  overflow: hidden;
 }
 
 @media (max-width:920px) {
