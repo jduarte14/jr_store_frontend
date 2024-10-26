@@ -82,7 +82,7 @@ const postBanner = async (e: Event) => {
     e.preventDefault()
     const bannerData = createFormData()
     const response = await fetchData(
-      `https://jrstore-production.up.railway.app/api/banners`,
+      `https://jr-store-self.vercel.app/api/banners`,
       'POST',
       bannerData
     )

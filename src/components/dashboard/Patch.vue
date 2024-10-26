@@ -123,7 +123,7 @@ const patchProduct = async (e: Event) => {
     try {
         e.preventDefault();
         const productData = createFormData();
-        const response = await fetchData(`https://jrstore-production.up.railway.app/api/products/${id}`, 'PATCH', productData);
+        const response = await fetchData(`https://jr-store-self.vercel.app/api/products/${id}`, 'PATCH', productData);
         if (response.status === "success") {
             handleSuccessPopUp();
         }

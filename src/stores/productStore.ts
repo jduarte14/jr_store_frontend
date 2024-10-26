@@ -8,7 +8,7 @@ export const useProductStore = defineStore('products', {
   actions: {
     async getProducts() {
       try {
-        const response = await fetch('https://jrstore-production.up.railway.app/api/products')
+        const response = await fetch('https://jr-store-self.vercel.app/api/products')
           const data = await response.json();
           this.products = data;
           return data;
@@ -20,7 +20,7 @@ export const useProductStore = defineStore('products', {
     },
     async getSingleProduct(id:string) {
       try {
-        const response = await fetch("https://jrstore-production.up.railway.app/api/products/" + id);
+        const response = await fetch("https://jr-store-self.vercel.app/api/products/" + id);
           const data = await response.json();
           this.singleProduct = data;
           return data;

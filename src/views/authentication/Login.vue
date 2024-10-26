@@ -31,7 +31,7 @@ const handleSubmit = async (e:Event) => {
         const userData = new URLSearchParams();
         userData.append("password", password.value);
         userData.append("email", email.value);
-        const response = await fetch('https://jrstore-production.up.railway.app/auth/user/login', {
+        const response = await fetch('https://jr-store-self.vercel.app/auth/user/login', {
             method: "POST",
             body: userData,
             headers: {

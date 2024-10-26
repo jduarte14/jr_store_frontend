@@ -175,7 +175,7 @@ const patchBanner = async () => {
   
     const bannerData = createFormData()
     const response = await fetchData(
-      `https://jrstore-production.up.railway.app/api/banners/${id}`,
+      `https://jr-store-self.vercel.app/api/banners/${id}`,
       'PATCH',
       bannerData
     )

@@ -1,6 +1,6 @@
-<script lang="ts" setup>
+<script setup>
 import { Icon } from '@iconify/vue';
-
+import { toRef } from 'vue';
  defineProps({
     toggleSidebar: {
         type: Function,
@@ -11,13 +11,16 @@ import { Icon } from '@iconify/vue';
         required: true,
     },
     uniqueCategories: {
-        type: Array as () => string[],
+        type: Array,
         required: true,
     },
     filters: {
-        type: Object as () => { categories: string[] },
+        type: Object,
     },
 })
+
+const localFilters = toRef(props, 'filters');
+
 </script>
 
 
@@ -31,9 +34,9 @@ import { Icon } from '@iconify/vue';
             Categories:
         </b>
      </div>
-        <div class="filter_item" v-for="category in uniqueCategories">
+        <div class="filter_item" v-for="category in uniqueCategories" :key="category">
             <span>
-                <input type="checkbox" :value="category" v-model="filters.categories">
+                <input type="checkbox" :value="category" v-model="localFilters.categories">
                 {{ category }}
             </span>
         </div>

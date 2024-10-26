@@ -8,7 +8,7 @@ export const useBannerStore = defineStore('banners', {
   actions: {
     async getBanners() {
       try {
-        const response = await fetch('https://jrstore-production.up.railway.app/api/banners')
+        const response = await fetch('https://jr-store-self.vercel.app/api/banners')
         const data = await response.json();
         this.banners = data;
         return this.banners;
@@ -20,7 +20,7 @@ export const useBannerStore = defineStore('banners', {
     },
     async getSingleBanner(id: string) {
       try {
-        const response = await fetch("https://jrstore-production.up.railway.app/api/banners/" + id);
+        const response = await fetch("https://jr-store-self.vercel.app/api/banners/" + id);
         const data = await response.json();
         this.singleBanner = data;
         return this.singleBanner;
@@ -32,7 +32,7 @@ export const useBannerStore = defineStore('banners', {
     },
     async deleteBanner(id: string) {
       try {
-        const response = await fetch("https://jrstore-production.up.railway.app/api/banners/" + id, { method: "DELETE" })
+        const response = await fetch("https://jr-store-self.vercel.app/api/banners/" + id, { method: "DELETE" })
         if (response.ok) {
           return response;
         }

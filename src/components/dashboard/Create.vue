@@ -94,7 +94,7 @@ const postProduct = async (e: Event) => {
     try {
         e.preventDefault();
         const productData = createFormData();
-        const response = await fetchData(`https://jrstore-production.up.railway.app/api/products`, 'POST', productData);
+        const response = await fetchData(`https://jr-store-self.vercel.app/api/products`, 'POST', productData);
         if (response.status != "success") {
             handleRejectedPopUp();
         }
