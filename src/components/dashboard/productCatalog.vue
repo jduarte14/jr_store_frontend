@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script setup>
 import { ref, onMounted } from 'vue';
 import { Icon } from '@iconify/vue';
 import { RouterLink } from 'vue-router';
@@ -39,7 +39,7 @@ onMounted(() => {
         <div class="catalog">
             <div class="catalog_item" v-for="product in productRef" :key="product._id">
                 <img :src="product.image" alt="">
-                <div class="row">
+                <div class="row info_row">
                     <p>{{ product.name }}</p>
                     <p>Є{{ product.price }}</p>
                 </div>
@@ -53,6 +53,9 @@ onMounted(() => {
 </template>
 
 <style scoped>
+.info_row {
+    margin-top: auto;
+}
 .searchbox_container {
     display: flex;
     align-items: center;

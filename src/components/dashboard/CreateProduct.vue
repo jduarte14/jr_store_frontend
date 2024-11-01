@@ -1,13 +1,13 @@
-<script lang="ts" setup>
+<script setup>
 import { ref } from 'vue';
 import { Icon } from '@iconify/vue';
-import { fetchData } from './../../helpers/fetchHelper';
-import WarnPopup from './../../components/WarnPopUp.vue';
+import { fetchData } from '../../helpers/fetchHelper';
+import WarnPopup from '../WarnPopUp.vue';
 
 
 const successPopUp = ref(false);
 const rejectedPopUp = ref(false);
-const handlePopUp = (action: string) => {
+const handlePopUp = (action) => {
     if (action === 'success') {
         successPopUp.value = !successPopUp.value;
     }
@@ -56,8 +56,8 @@ const imageData = ref({
     },
 })
 
-const onImageChange = (event: Event, key: string): void => {
-    const inputElement = event.currentTarget as HTMLInputElement;
+const onImageChange = (event, key) => {
+    const inputElement = event.currentTarget;
     const file = inputElement.files?.[0];
 
     if (file) {
@@ -67,7 +67,7 @@ const onImageChange = (event: Event, key: string): void => {
     }
 };
 
-const removeImage = (key: string): void => {
+const removeImage = (key) => {
     imageData.value[key].file = null;
     imageData.value[key].previewUrl = null;
 };
@@ -89,7 +89,7 @@ const createFormData = () => {
 }
 
 
-const postProduct = async (e: Event) => {
+const postProduct = async (e) => {
 
     try {
         e.preventDefault();
