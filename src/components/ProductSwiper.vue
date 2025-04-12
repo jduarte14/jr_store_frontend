@@ -1,78 +1,80 @@
-
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue';
-import { useProductStore } from './../stores/productStore';
-import { RouterLink } from 'vue-router';
+import { onMounted, ref } from 'vue'
+import { useProductStore } from './../stores/productStore'
+import { RouterLink } from 'vue-router'
 
-import { Swiper, SwiperSlide } from 'swiper/vue';
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
-import 'swiper/css/scrollbar';
+import { Splide, SplideSlide } from '@splidejs/vue-splide'
+import '@splidejs/vue-splide/css'
 
-const productRef = ref([]);
+const productRef = ref([])
 
+const productStore = useProductStore()
 
-const productStore = useProductStore();
-
-const swiperBreakPoints = {
-  320: {
-    slidesPerView: 2,
+const splideOptions = {
+  type: 'slide',
+  gap: '30px',
+  perPage: 5,
+  pagination: true,
+  arrows: true,
+  breakpoints: {
+    1024: {
+      perPage: 5,
+    },
+    768: {
+      perPage: 3,
+    },
+    320: {
+      perPage: 2,
+    },
   },
-  768: {
-    slidesPerView: 3,
-  },
-  1024: {
-    slidesPerView: 5,
-  }
 }
+
 const getData = async () => {
   try {
-    const data = await productStore.getProducts();
-    productRef.value = data.products;
+    const data = await productStore.getProducts()
+    productRef.value = data.products
   } catch (error) {
-    console.error(error);
+    console.error(error)
   }
 }
 
-
 onMounted(() => {
-  getData();
-});
-
-
+  getData()
+})
 </script>
+
 <template>
   <div class="title">
     <div class="row">
-      <hr>
+      <hr />
       <h2>Featured artworks</h2>
-      <hr>
+      <hr />
     </div>
     <p>Artalistic Selection</p>
+
     <div v-if="productRef" class="swiper_row">
-      <swiper :slides-per-view="5" :breakpoints="swiperBreakPoints" :space-between="30" :pagination="{ clickable: true }"
-        :scrollbar="{ draggable: true }">
-        <swiper-slide v-for="product in productRef" :key="product._id"  class="product_box">
+      <Splide :options="splideOptions">
+        <SplideSlide
+          v-for="product in productRef"
+          :key="product._id"
+          class="product_box"
+        >
           <RouterLink :to="`/product/${product._id}`">
             <img :src="product.image" :alt="product.name" />
             <h2>{{ product.name }}</h2>
             <span class="price" v-if="product.price">Є{{ product.price }}</span>
-            <p>
-              {{ product.description }}
-            </p>
+            <p>{{ product.description }}</p>
           </RouterLink>
-        </swiper-slide>
-
-
-      </swiper>
+        </SplideSlide>
+      </Splide>
     </div>
+
     <div v-else>
-      <p style="color:white;">Loading...</p>
+      <p style="color: white">Loading...</p>
     </div>
-
   </div>
 </template>
+
 <style scoped>
 .title {
   text-align: center;
@@ -107,9 +109,9 @@ h2 {
 }
 
 .price {
-  font-weight:bold;
-  font-size:20px;
-  color:black;
+  font-weight: bold;
+  font-size: 20px;
+  color: black;
 }
 
 img {
@@ -123,8 +125,9 @@ img {
   padding: 10px;
   border-radius: 10px;
   max-width: max-content;
-  height:auto;
+  height: auto;
 }
+
 .product_box a {
   text-decoration: none;
 }
@@ -144,7 +147,7 @@ body {
   font-size: 14px;
 }
 
-@media (min-width:921px) {
+@media (min-width: 921px) {
   .swiper_row {
     max-width: 85%;
     margin: 0 auto;
@@ -153,27 +156,31 @@ body {
   }
 }
 
-@media (max-width:920px) {
+@media (max-width: 920px) {
   .swiper_row {
     padding-top: 30px;
   }
+
   .product_box {
-    display:flex;
+    display: flex;
     align-items: center;
     justify-content: center;
   }
+
   .product_box h2 {
-    font-size:20px;
+    font-size: 20px;
   }
+
   .product_box p {
-    font-size:12px;
+    font-size: 12px;
     text-wrap: wrap;
   }
+
   .product_box a {
-    padding:0;
-    margin:0;
-    max-width:max-content;
-    width:100%;
+    padding: 0;
+    margin: 0;
+    max-width: max-content;
+    width: 100%;
   }
 }
 </style>

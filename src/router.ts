@@ -11,12 +11,14 @@ import Patch from './components/dashboard/PatchProduct.vue';
 import CreateBanner from './components/dashboard/banners/Create.vue';
 import BannersCatalog from './components/dashboard/banners/bannersCatalog.vue';
 import PatchBanner from './components/dashboard/banners/Patch.vue';
+import Blog from './views/Blog.vue';
 
 const routes = [
   { path: '/', component: Home },
   { path: '/product/:id', component: ProductCard },
   { path: '/catalog', component: Catalog },
   { path: '/login', component: Login },
+  { path: '/blog', component: Blog },
   { path: '/dashboard', component: Dashboard, meta: { requiresAuth: true } },
   { path: '/dashboard/catalog', component: DashboardCatalog, meta: { requiresAuth: true } },
   { path: '/dashboard/banners/', component: BannersCatalog, meta: { requiresAuth: true } },

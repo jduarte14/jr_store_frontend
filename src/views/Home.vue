@@ -1,5 +1,4 @@
-
-<script lang="ts" setup>
+<script setup>
 import PrincipalBanner from './../components/PrincipalBanner.vue';
 import ProductSwiper from './../components/ProductSwiper.vue';
 </script>

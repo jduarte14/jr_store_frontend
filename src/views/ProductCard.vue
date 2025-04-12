@@ -1,118 +1,122 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
-import { useRoute } from 'vue-router';
-import { useProductStore } from '@/stores/productStore';
-import { Product } from './../types/types';
-import Spinner from './../components/Spinner.vue';
-import { Icon } from '@iconify/vue';
-import { Swiper, SwiperSlide } from 'swiper/vue';
-import 'swiper/css';
-import 'swiper/css/navigation';
+import { onMounted, ref } from 'vue'
+import { useRoute } from 'vue-router'
+import { useProductStore } from '@/stores/productStore'
+import { Product } from './../types/types'
+import Spinner from './../components/Spinner.vue'
+import { Icon } from '@iconify/vue'
 
-const productData = ref<Product>({});
-const loading = ref<boolean>(true);
-const characteristicAccordeon = ref<boolean>(true);
+import { Splide, SplideSlide } from '@splidejs/vue-splide'
+import '@splidejs/vue-splide/css'
 
-const id = useRoute().params.id;
+const productData = ref<Product>({} as Product)
+const loading = ref(true)
+const characteristicAccordeon = ref(true)
+
+const id = useRoute().params.id
 const getProductData = async () => {
-    try {
-        const productStore = useProductStore();
-        let productResponse = await productStore.getSingleProduct(id);
-        productData.value = productResponse.product;
-        loading.value = false;
-    }
-    catch (error) {
-        console.error(error.message);
-    }
+  try {
+    const productStore = useProductStore()
+    const productResponse = await productStore.getSingleProduct(id)
+    productData.value = productResponse.product
+    loading.value = false
+  } catch (error: any) {
+    console.error(error.message)
+  }
 }
-onMounted(() => {
-    getProductData();
 
-});
+onMounted(() => {
+  getProductData()
+})
 
 const toggleCharacteristicAccordion = () => {
-    characteristicAccordeon.value = !characteristicAccordeon.value;
-};
-
-
-
-const swiperBreakPoints = {
-    320: {
-        slidesPerView: 1,
-    },
-    768: {
-        slidesPerView: 1,
-    },
-    1024: {
-        slidesPerView: 1,
-    }
+  characteristicAccordeon.value = !characteristicAccordeon.value
 }
 
+const splideOptions = {
+  type: 'slide',
+  gap: '30px',
+  perPage: 1,
+  pagination: true,
+  arrows: true,
+  breakpoints: {
+    1024: {
+      perPage: 1
+    },
+    768: {
+      perPage: 1
+    },
+    320: {
+      perPage: 1
+    }
+  }
+}
 </script>
+
 <template>
-    <section class="product_section" v-if="!loading">
-        <div class="product_gallery">
-            <swiper v-if="productData.image2" :slides-per-view="5" :breakpoints="swiperBreakPoints" :space-between="30"
-                :pagination="{ clickable: true }" :navigation="{ draggable: true }">
-                <swiper-slide v-if="productData.image">
-                    <img :src="productData.image" />
-                </swiper-slide>
-                <swiper-slide v-if="productData.image2">
-                    <img :src="productData.image2" />
-                </swiper-slide>
-                <swiper-slide v-if="productData.image3">
-                    <img :src="productData.image3" />
-                </swiper-slide>
-                <swiper-slide v-if="productData.image4">
-                    <img :src="productData.image4" />
-                </swiper-slide>
-                <swiper-slide v-if="productData.image5">
-                    <img :src="productData.image5" />
-                </swiper-slide>
+  <section class="product_section" v-if="!loading">
+    <div class="product_gallery">
+      <Splide v-if="productData.image2" :options="splideOptions">
+        <SplideSlide v-if="productData.image">
+          <img :src="productData.image" />
+        </SplideSlide>
+        <SplideSlide v-if="productData.image2">
+          <img :src="productData.image2" />
+        </SplideSlide>
+        <SplideSlide v-if="productData.image3">
+          <img :src="productData.image3" />
+        </SplideSlide>
+        <SplideSlide v-if="productData.image4">
+          <img :src="productData.image4" />
+        </SplideSlide>
+        <SplideSlide v-if="productData.image5">
+          <img :src="productData.image5" />
+        </SplideSlide>
+      </Splide>
+      <div v-else class="product_gallery">
+        <img :src="productData.image" />
+      </div>
+    </div>
 
-            </swiper>
-            <div v-else class="product_gallery">
-                <img :src="productData.image">
-            </div>
+    <div class="product_card" :key="productData._id">
+      <div class="row">
+        <div class="category_box">
+          <p>{{ productData.category }}</p>
         </div>
-
-        <div class="product_card" :key="productData_id">
-            <div class="row">
-                <div class="category_box">
-                    <p>{{ productData.category }}</p>
-                </div>
-                <Icon icon="ooui:next-ltr" />
-                <div class="category_box">
-                    <p>{{ productData.subcategory }}</p>
-                </div>
-            </div>
-            <h1>{{ productData.name }}</h1>
-            <p class="price" v-if="productData.price">Є{{ productData.price }}</p>
-            <p>{{ productData.description }} </p>
-
-            <div v-if="productData.characteristic" class="charac_box">
-                <div class="title_box" @click="toggleCharacteristicAccordion">
-                    <p>Characteristic:</p>
-                    <p class="ico" v-if="!characteristicAccordeon"> + </p>
-                    <p class="ico" v-else> - </p>
-                </div>
-                <transition name="characteristic">
-                    <div v-show="characteristicAccordeon" class="characteristic">
-                        <p>{{ productData.characteristic }}</p>
-                    </div>
-                </transition>
-            </div>
-            <button class="buy_button">
-                <Icon icon="majesticons:basket-2-line" />
-                Buy
-            </button>
+        <Icon icon="ooui:next-ltr" />
+        <div class="category_box">
+          <p>{{ productData.subcategory }}</p>
         </div>
+      </div>
+      <h1>{{ productData.name }}</h1>
+      <p class="price" v-if="productData.price">Є{{ productData.price }}</p>
+      <p>{{ productData.description }}</p>
 
-    </section>
-    <section class="loading_section" v-else>
-        <Spinner color="#fff" />
-    </section>
+      <div v-if="productData.characteristic" class="charac_box">
+        <div class="title_box" @click="toggleCharacteristicAccordion">
+          <p>Characteristic:</p>
+          <p class="ico" v-if="!characteristicAccordeon"> + </p>
+          <p class="ico" v-else> - </p>
+        </div>
+        <transition name="characteristic">
+          <div v-show="characteristicAccordeon" class="characteristic">
+            <p>{{ productData.characteristic }}</p>
+          </div>
+        </transition>
+      </div>
+      <button class="buy_button">
+        <Icon icon="majesticons:basket-2-line" />
+        Buy
+      </button>
+    </div>
+  </section>
+
+  <section class="loading_section" v-else>
+    <Spinner color="#fff" />
+  </section>
 </template>
+
+
 <style scoped>
 @media (min-width:921px) {
     h1 {
