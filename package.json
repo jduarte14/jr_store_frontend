@@ -18,6 +18,13 @@
   },
   "dependencies": {
     "@splidejs/vue-splide": "^0.6.12",
+    "@tiptap/extension-color": "^2.11.7",
+    "@tiptap/extension-image": "^2.11.7",
+    "@tiptap/extension-list-item": "^2.11.7",
+    "@tiptap/extension-text-style": "^2.11.7",
+    "@tiptap/pm": "^2.11.7",
+    "@tiptap/starter-kit": "^2.11.7",
+    "@tiptap/vue-3": "^2.11.7",
     "gsap": "^3.12.7",
     "pinia": "^2.1.7",
     "vue": "^3.3.10",

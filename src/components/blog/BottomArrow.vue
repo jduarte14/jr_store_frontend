@@ -2,7 +2,7 @@
 import { RouterLink } from 'vue-router'
 import { Icon } from '@iconify/vue'
 
-const props = defineProps({
+const { link, text } = defineProps({
   link: {
     type: String,
     default: ''
@@ -12,13 +12,14 @@ const props = defineProps({
     default: ''
   }
 })
+
 </script>
 
 <template>
   <section>
     <div>
       <RouterLink :to="link">
-        {{ props.text }}
+        {{ text }}
       </RouterLink>
       
         <Icon class="icon" icon="gis:arrow-o" width="50" height="50" />

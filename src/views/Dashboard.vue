@@ -12,7 +12,7 @@ import { RouterLink } from 'vue-router'
         <p>Pages edition</p>
       </div>
       <div class="box">
-        <p>Blog</p>
+        <RouterLink to="/dashboard/blog/create"> Blog </RouterLink>
       </div>
       <div class="box full">
         <RouterLink to="/dashboard/catalog"> Manage products </RouterLink>
