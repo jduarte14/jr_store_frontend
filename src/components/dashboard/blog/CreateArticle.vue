@@ -2,6 +2,7 @@
 import { ref, onMounted } from 'vue'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 import StarterKit from '@tiptap/starter-kit'
+import { uploadImage } from '@/components/blog/blog.js';
 
 const editor = ref(null)
 const toolbar = ref(null)
@@ -12,6 +13,10 @@ const initEditor = () => {
     extensions: [StarterKit]
   })
   const toolbarOptions = [
+    {
+      text: 'Paragraph',
+      action: (chain) => chain.setParagraph()
+    },
     {
       text: 'Bold',
       action: (chain) => chain.toggleBold()
@@ -40,15 +45,11 @@ const handleSubmit = () => {
   console.log(editor.value.getHTML(), '_HTML_')
 }
 
-const uploadImage = (event) => {
+const setImage = async (event) => {
   const file = event.target.files[0]
   if (!file || !editor.value) return
-
-  const reader = new FileReader()
-  reader.onload = () => {
-    editor.value.chain().focus().setImage({ src: reader.result }).run()
-  }
-  reader.readAsDataURL(file)
+  const imageUrl = await uploadImage(file);
+  console.log(imageUrl, "response");
 }
 
 onMounted(() => {
@@ -78,7 +79,7 @@ onMounted(() => {
           </button>
           <label class="toolbar_btn upload-btn">
             📷 Imagen
-            <input type="file" accept="image/*" @change="uploadImage" hidden />
+            <input type="file" accept="image/*" @change="setImage" hidden />
           </label>
         </div>
         <div class="editor-box" v-if="editor">
@@ -169,5 +170,11 @@ form {
     width: 100%;
     margin: 0 auto;
   }
+}
+</style>
+
+<style>
+.editor-box p {
+  min-height: 300px;
 }
 </style>
