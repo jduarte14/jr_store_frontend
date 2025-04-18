@@ -27,6 +27,24 @@ export const getArticleById = async (id) => {
     }
 }
 
+export const createArticle = async (data) => {
+    try {
+        const formData = new FormData();
+
+        formData.append("title", data.title)
+        formData.append("category", data.category)
+        formData.append("description", data.description)
+        formData.append("content", data.content)
+        formData.append("banner", data.banner);
+
+        const response = fetchData(portal, "POST", formData);
+        return response;
+    }
+    catch(error) {
+        throw new Error(error.message);
+    }
+}
+
 
 export const deleteArticle = async (id) => {
     try {
@@ -62,8 +80,8 @@ export const uploadImage = async (bodyData) => {
 
         fileData.append("image", bodyData);
         const response = await fetchData(portal + "/attachment/image/upload", "POST", fileData);
-        console.log(response.json(), "UploadImage");
-        return response.json();
+
+        return response.image;
     }
     catch(error) {
         throw new Error(error.message);

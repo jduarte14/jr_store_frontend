@@ -1,16 +1,25 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 import StarterKit from '@tiptap/starter-kit'
-import { uploadImage } from '@/components/blog/blog.js';
+import Image from '@tiptap/extension-image'
+import { uploadImage, createArticle } from '@/controllers/Blog.js'
+import { Icon } from '@iconify/vue'
 
 const editor = ref(null)
 const toolbar = ref(null)
+const formInfo = ref({
+  title: '',
+  description: '',
+  category: '',
+  content: null,
+  banner: null
+})
 
 const initEditor = () => {
   editor.value = new Editor({
     content: ``,
-    extensions: [StarterKit]
+    extensions: [StarterKit, Image]
   })
   const toolbarOptions = [
     {
@@ -41,16 +50,35 @@ const handleClick = (action) => {
   if (editor.value) action(editor.value.chain().focus()).run()
 }
 
-const handleSubmit = () => {
-  console.log(editor.value.getHTML(), '_HTML_')
+const handleSubmit = async () => {
+  formInfo.value.content = editor.value.getHTML()
+
+  const response = await createArticle(formInfo.value)
+  console.log(response, "_response_");
 }
 
 const setImage = async (event) => {
   const file = event.target.files[0]
   if (!file || !editor.value) return
-  const imageUrl = await uploadImage(file);
-  console.log(imageUrl, "response");
+  const imageUrl = await uploadImage(file)
+  if (imageUrl) {
+    editor.value.chain().focus().setImage({ src: imageUrl.url }).run()
+  }
 }
+
+const setBannerImage = async (event) => {
+  const file = event.target.files[0]
+  if (!file) return
+
+  const imageUrl = await uploadImage(file)
+  if (imageUrl) {
+    formInfo.value.banner = imageUrl.url
+  }
+}
+
+const isFrontBannerLoaded = computed(() => {
+  return formInfo.value.banner
+})
 
 onMounted(() => {
   initEditor()
@@ -60,12 +88,25 @@ onMounted(() => {
   <main>
     <section>
       <h1>Create blog article</h1>
-      <form @submit.prevent="handleSubmit">
-        <input type="text" placeholder="Article name" />
+      <form @submit.prevent="handleSubmit($event)">
+        <input type="text" placeholder="Article name" v-model="formInfo.title" />
+        <input type="text" placeholder="Add a short description" v-model="formInfo.description" />
+
+        <label for="banner">Front page image</label>
+        <div class="banner_row">
+          <div v-if="isFrontBannerLoaded" style="position: relative">
+            <img :src="formInfo.banner" class="front_banner_preview" alt="front_banner_preview" />
+            <button class="remove_image" @click="formInfo.banner = null">
+              <Icon icon="material-symbols:delete-rounded" width="24" height="24" />
+            </button>
+          </div>
+          <input v-else type="file" accept="image/*" class="file_image" @change="setBannerImage" />
+        </div>
         <label for="categories">Article categories: </label>
-        <select name="category" id="">
+        <select name="category" v-model="formInfo.category">
+          <option value="" disabled>Select a category</option>
           <option value="painting">Painting</option>
-          <option value="pictures">Option</option>
+          <option value="pictures">Pictures</option>
         </select>
         <label for="content"> Article content </label>
         <div class="toolbar" v-if="toolbar">
@@ -78,13 +119,14 @@ onMounted(() => {
             {{ option.text }}
           </button>
           <label class="toolbar_btn upload-btn">
-            📷 Imagen
+            📷 Add image
             <input type="file" accept="image/*" @change="setImage" hidden />
           </label>
         </div>
         <div class="editor-box" v-if="editor">
           <EditorContent :editor="editor" />
         </div>
+        <input class="submit_btn" type="submit" value="Add article" />
       </form>
     </section>
   </main>
@@ -106,6 +148,9 @@ label {
   font-size: 1.8rem;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
+}
+.upload-btn {
+  font-size: 0.8rem;
 }
 input,
 textarea {
@@ -164,6 +209,76 @@ form {
 .toolbar_btn:hover {
   opacity: 0.8;
 }
+.file_image {
+  background: white;
+  font-weight: bold;
+}
+.file_image::file-selector-button {
+  background: var(--slate);
+  padding: 10px 15px;
+  border-radius: 10px;
+  color: white;
+  border: unset;
+  transition: 0.3s ease;
+  cursor: pointer;
+}
+
+.file_image::file-selector-button:hover {
+  background: var(--slate);
+  padding: 10px 15px;
+  border-radius: 10px;
+  color: white;
+  opacity: 0.8;
+}
+.front_banner_preview {
+  border-radius: 10px;
+  border: 2px solid white;
+  max-width: 500px;
+  width: 100%;
+  height: auto;
+}
+.remove_image {
+  top: 5px;
+  right: 0;
+  background: unset;
+  border: unset;
+  position: absolute;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: 0.3s ease;
+  display: grid;
+  place-content: center;
+  max-width: max-content;
+}
+.remove_image:hover {
+  background: var(--slate);
+  border-radius: 100%;
+}
+.submit_btn {
+    background: #1f2937;
+    padding: 8px 10px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    transition: 0.3s ease;
+    display: flex;
+    align-items: center;
+    color: white;
+    border: unset;
+    font-weight: bold;
+    letter-spacing: 0.2px;
+    transition: 0.3s ease;
+    cursor: pointer;
+    max-width: max-content;
+    padding-inline: 20rem;
+    min-height: 40px;
+    margin-top: 20px;
+    margin: 25px auto;
+    transition: 0.3s ease;
+}
+.submit_btn:hover {
+  opacity: 0.8;
+}
 @media (min-width: 921px) {
   section {
     max-width: 70%;
@@ -174,7 +289,8 @@ form {
 </style>
 
 <style>
-.editor-box p {
+.editor-box .ProseMirror {
   min-height: 300px;
+  cursor: auto;
 }
 </style>

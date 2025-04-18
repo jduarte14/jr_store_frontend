@@ -8,7 +8,6 @@ export const useUserStore = defineStore('users', {
         async getUser() {
             try {
                 const token = sessionStorage.getItem('token');
-                console.log(token);
                 if (token) {
                     this.admin = token;
                     return this.admin;
