@@ -1,8 +1,6 @@
 import { fetchData } from "@/helpers/fetchHelper";
 
 let url = "https://jr-store-self.vercel.app/api/articles";
-let portal = "http://localhost:4800/api/articles";
-
 
 export const getArticles = async () => {
     try {
@@ -37,7 +35,7 @@ export const createArticle = async (data) => {
         formData.append("content", data.content)
         formData.append("banner", data.banner);
 
-        const response = fetchData(portal, "POST", formData);
+        const response = fetchData(url, "POST", formData);
         return response;
     }
     catch(error) {
@@ -79,7 +77,7 @@ export const uploadImage = async (bodyData) => {
         const fileData = new FormData();
 
         fileData.append("image", bodyData);
-        const response = await fetchData(portal + "/attachment/image/upload", "POST", fileData);
+        const response = await fetchData(url + "/attachment/image/upload", "POST", fileData);
 
         return response.image;
     }
