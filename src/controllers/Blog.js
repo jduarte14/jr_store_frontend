@@ -63,21 +63,24 @@ export const deleteArticle = async (id) => {
     }
 }
 
-export const patchArticle = async (id, bodyData) => {
+export const patchArticle = async (data, id) => {
     try {
         const formData = new FormData();
-        Object.keys(bodyData).forEach(key=>{
-            formData.append(key, bodyData[key]);
-        })
 
-        const response = fetchData(url + "/" + id, "PATCH");
-        let data = response.json();
+        formData.append("title", data.title)
+        formData.append("category", data.category)
+        formData.append("description", data.description)
+        formData.append("content", data.content)
+        formData.append("banner", data.banner);
 
-        return data;
-    } catch (error) {
+        const response = fetchData(url + "/" + id, "PATCH", formData);
+        return response;
+    }
+    catch(error) {
         throw new Error(error.message);
     }
 }
+
 
 
 export const uploadImage = async (bodyData) => {

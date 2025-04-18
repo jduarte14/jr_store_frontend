@@ -25,8 +25,8 @@ defineProps({
     <section>
       <hr />
       <div class="row">
-        <BottomArrow to="/articles" text="Watch all articles" />
-        <BottomArrow to="/catalog" text="Watch all products" />
+        <BottomArrow link="/articles" text="Watch all articles" />
+        <BottomArrow link="/catalog" text="Watch all products" />
       </div>
     </section>
   </main>

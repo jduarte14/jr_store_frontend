@@ -15,6 +15,8 @@ import ArticleCatalog from "@/components/blog/ArticleCatalog.vue";
 import ArticlePage from "@/components/blog/ArticlePage.vue";
 import Blog from './views/Blog.vue';
 import CreateArticle from "@/components/dashboard/blog/CreateArticle.vue";
+import PatchArticle from "@/components/dashboard/blog/PatchArticle.vue";
+import ArticleList from "@/components/dashboard/blog/ArticleList.vue";
 
 const routes = [
   { path: '/', component: Home },
@@ -27,11 +29,13 @@ const routes = [
   { path: '/dashboard', component: Dashboard, meta: { requiresAuth: true } },
   { path: '/dashboard/catalog', component: DashboardCatalog, meta: { requiresAuth: true } },
   { path: '/dashboard/banners/', component: BannersCatalog, meta: { requiresAuth: true } },
+  { path: '/dashboard/blog/', component: ArticleList, meta: { requiresAuth: true } },
   { path: '/dashboard/catalog/create', component: Create, meta: { requiresAuth: true } },
   { path: '/dashboard/catalog/edit/:id', component: Patch, meta: { requiresAuth: true } },
   { path: '/dashboard/banners/create', component: CreateBanner, meta: { requiresAuth: true } },
   { path: '/dashboard/banners/patch/:id', component: PatchBanner, meta: { requiresAuth: true } },
   { path: '/dashboard/blog/create', component: CreateArticle, meta: { requiresAuth: true } },
+  { path: '/dashboard/blog/patch/:id', component: PatchArticle, meta: { requiresAuth: true } },
   { path: '/:pathMatch(.*)*', component: ErrorPage },
 ];
 
