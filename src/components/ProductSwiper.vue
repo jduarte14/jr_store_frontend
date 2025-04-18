@@ -6,6 +6,17 @@ import { RouterLink } from 'vue-router'
 import { Splide, SplideSlide } from '@splidejs/vue-splide'
 import '@splidejs/vue-splide/css'
 
+const props = defineProps({
+  title: {
+    type: String,
+    default: ''
+  },
+  subTitle: {
+    type: String,
+    default: ''
+  }
+})
+
 const productRef = ref([])
 
 const productStore = useProductStore()
@@ -18,15 +29,15 @@ const splideOptions = {
   arrows: true,
   breakpoints: {
     1024: {
-      perPage: 5,
+      perPage: 5
     },
     768: {
-      perPage: 3,
+      perPage: 3
     },
     320: {
-      perPage: 2,
-    },
-  },
+      perPage: 2
+    }
+  }
 }
 
 const getData = async () => {
@@ -45,20 +56,18 @@ onMounted(() => {
 
 <template>
   <div class="title">
-    <div class="row">
-      <hr />
-      <h2>Featured artworks</h2>
-      <hr />
+    <div class="info" v-if="title && subTitle">
+      <div class="row">
+        <hr />
+        <h2>{{ title }}</h2>  
+        <hr />
+      </div>
+      <p>{{ subTitle }}</p>
     </div>
-    <p>Artalistic Selection</p>
 
     <div v-if="productRef" class="swiper_row">
       <Splide :options="splideOptions">
-        <SplideSlide
-          v-for="product in productRef"
-          :key="product._id"
-          class="product_box"
-        >
+        <SplideSlide v-for="product in productRef" :key="product._id" class="product_box">
           <RouterLink :to="`/product/${product._id}`">
             <img :src="product.image" :alt="product.name" />
             <h2>{{ product.name }}</h2>
@@ -78,7 +87,6 @@ onMounted(() => {
 <style scoped>
 .title {
   text-align: center;
-  padding-top: 3%;
 }
 
 p {
@@ -149,7 +157,6 @@ body {
 
 @media (min-width: 921px) {
   .swiper_row {
-    max-width: 85%;
     margin: 0 auto;
     padding-top: 2%;
     padding-bottom: 2%;

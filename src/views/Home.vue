@@ -1,10 +1,10 @@
 <script setup>
 import PrincipalBanner from './../components/PrincipalBanner.vue';
-import ProductSwiper from './../components/ProductSwiper.vue';
+import HomePageContent from '@/components/HomePageContent.vue';
 </script>
 <template>
     <PrincipalBanner />
-    <ProductSwiper />
+    <HomePageContent />
 </template>
 <style>
 </style>

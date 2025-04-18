@@ -22,18 +22,29 @@ defineProps({
       <hr />
       <SideArticleSwiper :articles="pictures" />
     </section>
-    <BottomArrow to="/articles" text="Watch all articles" />
+    <section>
+      <hr />
+      <div class="row">
+        <BottomArrow to="/articles" text="Watch all articles" />
+        <BottomArrow to="/catalog" text="Watch all products" />
+      </div>
+    </section>
   </main>
 </template>
 
 <style scoped>
-  hr {
-    margin: 0 auto;
-    text-align: center;
-    margin-top: 2rem;
-    margin-bottom: 2rem;
-    height:2px;
-    background: white;
-    border-radius: 10px;
+hr {
+  margin: 0 auto;
+  text-align: center;
+  margin-top: 4rem;
+  margin-bottom: 2rem;
+  height: 2px;
+  background: white;
+  border-radius: 10px;
+}
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>
