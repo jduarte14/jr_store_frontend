@@ -1,13 +1,12 @@
 import { fetchData } from "@/helpers/fetchHelper";
 
-let url = "https://jr-store-self.vercel.app/api/articles";
+let url = "http://localhost:4800/api/articles";
 
 export const getArticles = async () => {
     try {
         const response = fetchData(url, "GET");
-        let data = response.json();
 
-        return data;
+        return response;
     } catch (error) {
         throw new Error(error.message);
     }
@@ -17,10 +16,20 @@ export const getArticles = async () => {
 export const getArticleById = async (id) => {
     try {
         const response = fetchData(url + "/" + id, "GET");
-        let data = response.json();
 
-        return data;
+        return response;
     } catch (error) {
+        throw new Error(error.message);
+    }
+}
+
+export const getArticlesByCategory = async (category) => {
+    try {
+        const response = fetchData(url + "/category/"+ category, "GET")
+
+        return response;
+    }
+    catch (error) {
         throw new Error(error.message);
     }
 }
@@ -47,9 +56,8 @@ export const createArticle = async (data) => {
 export const deleteArticle = async (id) => {
     try {
         const response = fetchData(url + "/" + id, "DELETE");
-        let data = response.json();
 
-        return data;
+        return response;
     } catch (error) {
         throw new Error(error.message);
     }

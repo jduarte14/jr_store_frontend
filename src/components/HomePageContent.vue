@@ -3,140 +3,23 @@ import { ref, onMounted, getCurrentInstance } from 'vue'
 import ArticleHome from '@/components/blog/ArticleHome.vue'
 import ProductSwiper from '@/components/ProductSwiper.vue'
 import { useGsapScrollAnimation } from '@/composables/useGsapScrollAnimation.js'
+import { getArticlesByCategory } from '@/controllers/Blog.js'
 
-const articles = ref([
-  {
-    _id: '0',
-    title: 'Test',
-    category: 'Painting',
-    description: 'tuki',
-    content:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis quaerat ea assumenda vero eius? Quo.',
-    banner:
-      'https://static.wixstatic.com/media/22718f_e54b82aff9bc4244a61c572440849437.jpg/v1/fill/w_599,h_892,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/22718f_e54b82aff9bc4244a61c572440849437.jpg'
-  },
-  {
-    _id: '2',
-    title: 'Test',
-    category: 'Painting',
-    description: 'tuki',
-    content:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis quaerat ea assumenda vero eius? Quo.',
-    banner:
-      'https://static.wixstatic.com/media/22718f_e54b82aff9bc4244a61c572440849437.jpg/v1/fill/w_599,h_892,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/22718f_e54b82aff9bc4244a61c572440849437.jpg'
-  },
-  {
-    _id: '1',
-    title: 'Test',
-    category: 'Painting',
-    description: 'tuki',
-    content:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis quaerat ea assumenda vero eius? Quo.',
-    banner:
-      'https://static.wixstatic.com/media/22718f_e54b82aff9bc4244a61c572440849437.jpg/v1/fill/w_599,h_892,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/22718f_e54b82aff9bc4244a61c572440849437.jpg'
-  },
-  {
-    _id: '3',
-    title: 'Test',
-    category: 'Painting',
-    description: 'tuki',
-    content:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis quaerat ea assumenda vero eius? Quo.',
-    banner:
-      'https://static.wixstatic.com/media/22718f_e54b82aff9bc4244a61c572440849437.jpg/v1/fill/w_599,h_892,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/22718f_e54b82aff9bc4244a61c572440849437.jpg'
-  },
-  {
-    _id: '4',
-    title: 'Test',
-    category: 'Painting',
-    description: 'tuki',
-    content:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis quaerat ea assumenda vero eius? Quo.',
-    banner:
-      'https://static.wixstatic.com/media/22718f_e54b82aff9bc4244a61c572440849437.jpg/v1/fill/w_599,h_892,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/22718f_e54b82aff9bc4244a61c572440849437.jpg'
-  },
-  {
-    _id: '5',
-    title: 'Test',
-    category: 'Painting',
-    description: 'tuki',
-    content:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis quaerat ea assumenda vero eius? Quo.',
-    banner:
-      'https://static.wixstatic.com/media/22718f_e54b82aff9bc4244a61c572440849437.jpg/v1/fill/w_599,h_892,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/22718f_e54b82aff9bc4244a61c572440849437.jpg'
-  }
-])
-const pictures = ref([
-  {
-    _id: '0',
-    title: 'Test',
-    category: 'Painting',
-    description: 'tuki',
-    content:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis quaerat ea assumenda vero eius? Quo.',
-    banner:
-      'https://static.wixstatic.com/media/22718f_8de486a864b344feab2546dd44ab9b24.jpg/v1/fill/w_563,h_839,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/22718f_8de486a864b344feab2546dd44ab9b24.jpg'
-  },
-  {
-    _id: '2',
-    title: 'Test',
-    category: 'Painting',
-    description: 'tuki',
-    content:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis quaerat ea assumenda vero eius? Quo.',
-    banner:
-      'https://static.wixstatic.com/media/22718f_8de486a864b344feab2546dd44ab9b24.jpg/v1/fill/w_563,h_839,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/22718f_8de486a864b344feab2546dd44ab9b24.jpg'
-  },
-  {
-    _id: '1',
-    title: 'Test',
-    category: 'Painting',
-    description: 'tuki',
-    content:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis quaerat ea assumenda vero eius? Quo.',
-    banner:
-      'https://static.wixstatic.com/media/22718f_8de486a864b344feab2546dd44ab9b24.jpg/v1/fill/w_563,h_839,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/22718f_8de486a864b344feab2546dd44ab9b24.jpg'
-  },
-  {
-    _id: '3',
-    title: 'Test',
-    category: 'Painting',
-    description: 'tuki',
-    content:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis quaerat ea assumenda vero eius? Quo.',
-    banner:
-      'https://static.wixstatic.com/media/22718f_8de486a864b344feab2546dd44ab9b24.jpg/v1/fill/w_563,h_839,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/22718f_8de486a864b344feab2546dd44ab9b24.jpg'
-  },
-  {
-    _id: '4',
-    title: 'Test',
-    category: 'Painting',
-    description: 'tuki',
-    content:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis quaerat ea assumenda vero eius? Quo.',
-    banner:
-      'https://static.wixstatic.com/media/22718f_8de486a864b344feab2546dd44ab9b24.jpg/v1/fill/w_563,h_839,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/22718f_8de486a864b344feab2546dd44ab9b24.jpg'
-  },
-  {
-    _id: '5',
-    title: 'Test',
-    category: 'Painting',
-    description: 'tuki',
-    content:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis quaerat ea assumenda vero eius? Quo.',
-    banner:
-      'https://static.wixstatic.com/media/22718f_8de486a864b344feab2546dd44ab9b24.jpg/v1/fill/w_563,h_839,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/22718f_8de486a864b344feab2546dd44ab9b24.jpg'
-  }
-])
+const paintings = ref(null)
+const pictures = ref(null)
 
-onMounted(() => {
-  useGsapScrollAnimation('.title', {
-    y: 60,
-    opacity: 0,
-    duration: 1,
-    ease: 'power2.out',
-    stagger: 0.2
-  })
+const fetchArticles = async () => {
+  const [paintingsRes, picturesRes] = await Promise.all([
+    getArticlesByCategory('painting'),
+    getArticlesByCategory('pictures')
+  ])
+
+  paintings.value = paintingsRes.articles
+  pictures.value = picturesRes.articles
+}
+
+onMounted(async () => {
+  await fetchArticles()
 })
 </script>
 
@@ -144,16 +27,16 @@ onMounted(() => {
   <main>
     <section class="main_section">
       <div class="info_top">
-        <h2 class="title"> Products </h2>
-        <h2 class="title slate_title"> Featured art works </h2>
+        <h2 class="title">Products</h2>
+        <h2 class="title slate_title">Featured art works</h2>
         <ProductSwiper />
       </div>
       <hr />
-      <div class="title_row">
+      <div class="title_row" v-if="paintings?.length && pictures?.length">
         <div>
           <h2 class="title">Capturing the Unseen</h2>
           <h2 class="title slate_title">Remembering Through Creation.</h2>
-          <ArticleHome :articles="articles" :pictures="pictures" />
+          <ArticleHome :articles="paintings" :pictures="pictures" />
         </div>
       </div>
     </section>
@@ -168,13 +51,13 @@ onMounted(() => {
 }
 
 hr {
-    margin: 0 auto;
-    text-align: center;
-    margin-top: 2rem;
-    margin-bottom: 2rem;
-    height: 2px;
-    background: white;
-    border-radius: 10px;
+  margin: 0 auto;
+  text-align: center;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  height: 2px;
+  background: white;
+  border-radius: 10px;
 }
 
 h2 {

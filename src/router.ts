@@ -23,7 +23,7 @@ const routes = [
   { path: '/login', component: Login },
   { path: '/blog', component: Blog },
   { path: '/articles', component: ArticleCatalog },
-  { path: '/articles/:id', component: ArticlePage },
+  { path: '/article/:id', component: ArticlePage },
   { path: '/dashboard', component: Dashboard, meta: { requiresAuth: true } },
   { path: '/dashboard/catalog', component: DashboardCatalog, meta: { requiresAuth: true } },
   { path: '/dashboard/banners/', component: BannersCatalog, meta: { requiresAuth: true } },
