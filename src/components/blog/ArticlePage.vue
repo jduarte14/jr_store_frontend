@@ -3,22 +3,17 @@ import { ref, onBeforeMount } from 'vue'
 import { getArticleById } from '@/controllers/Blog.js'
 import { useRoute } from 'vue-router'
 import ArticleContent from '@/components/blog/ArticleContent.vue'
+import Spinner from "@/components/spinner.vue";
 
 const article = ref(null)
 const articleTemplate = ref(null)
 
-const setupArticleTemplate = () => {
-  let { content } = article.value
-
-  console.log(content, '_content_')
-}
 
 const getData = async () => {
   const id = useRoute().params.id
   const articleData = await getArticleById(id)
   if (articleData) {
     article.value = articleData.article
-    setupArticleTemplate()
   }
 }
 
@@ -29,7 +24,7 @@ onBeforeMount(async () => {
 
 <template>
   <main>
-    <section class="main_section">
+    <section class="main_section" v-if="article">
       <div class="main_info">
         <h1>
           {{ article.title }}
@@ -38,6 +33,9 @@ onBeforeMount(async () => {
         <img :src="article.banner" :alt="`${article.title}__banner`" class="banner_image" />
       </div>
       <ArticleContent :content="article.content" />
+    </section>
+    <section class="main_info" v-else>
+        <Spinner />
     </section>
   </main>
 </template>
@@ -66,6 +64,7 @@ onBeforeMount(async () => {
   padding-inline: 5rem;
   padding-top: 1rem;
   margin-bottom: 2rem;
+  padding-bottom: 3rem;
 }
 .category {
     color: white;
@@ -76,6 +75,14 @@ onBeforeMount(async () => {
     margin-bottom: 15px;
 }
 .banner_image {
-    max-width: 80%;
+    max-width: 600px;
+    cursor: pointer;
+}
+@media (max-width: 890px) {
+  .main_section {
+    width: 100%;
+    max-width: 100%;
+    padding-inline: 0;
+  }
 }
 </style>

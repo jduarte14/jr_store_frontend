@@ -17,10 +17,13 @@ const props = defineProps({
     line-height: 1.5;
 }
 .content h2 {
-    font-size: 2.5rem;
+    font-size: 3.5rem;
 }
 .content p {
     font-size: 1.2rem;
+}
+.content h3 {
+    font-size: 2.5rem;
 }
 @media (min-width: 1023px) {
     .content {

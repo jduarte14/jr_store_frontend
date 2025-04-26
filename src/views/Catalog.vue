@@ -125,7 +125,7 @@ onMounted(() => {
     }
 
     .catalog_box {
-        max-width: 70%;
+        max-width: 80%;
         margin: 0 auto;
     }
 
@@ -236,7 +236,7 @@ a {
 
 
 .catalog_item img {
-    max-width: 200px;
+    max-width: 300px;
     height: auto;
     width: 100%;
     border-radius: 10px;

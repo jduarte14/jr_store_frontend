@@ -6,7 +6,7 @@ import { RouterLink } from 'vue-router'
 import { Splide, SplideSlide } from '@splidejs/vue-splide'
 import '@splidejs/vue-splide/css'
 
-const props = defineProps({
+defineProps({
   title: {
     type: String,
     default: ''
@@ -14,12 +14,13 @@ const props = defineProps({
   subTitle: {
     type: String,
     default: ''
-  }
+  },
+  products: {
+      type: Array,
+    }
 })
 
 const productRef = ref([])
-
-const productStore = useProductStore()
 
 const splideOptions = {
   type: 'slide',
@@ -39,19 +40,6 @@ const splideOptions = {
     }
   }
 }
-
-const getData = async () => {
-  try {
-    const data = await productStore.getProducts()
-    productRef.value = data.products
-  } catch (error) {
-    console.error(error)
-  }
-}
-
-onMounted(() => {
-  getData()
-})
 </script>
 
 <template>
@@ -67,7 +55,7 @@ onMounted(() => {
 
     <div v-if="productRef" class="swiper_row">
       <Splide :options="splideOptions">
-        <SplideSlide v-for="product in productRef" :key="product._id" class="product_box">
+        <SplideSlide v-for="product in products" :key="product._id" class="product_box">
           <RouterLink :to="`/product/${product._id}`">
             <img :src="product.image" :alt="product.name" />
             <h2>{{ product.name }}</h2>

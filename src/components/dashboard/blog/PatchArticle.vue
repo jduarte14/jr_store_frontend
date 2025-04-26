@@ -30,13 +30,10 @@ const setupArticleInfo = async () => {
     banner: banner
   }
 
-  console.log(formInfo.value.content);
-  
   initEditor(content)
 }
 
 const initEditor = (content) => {
-  console.log(content, "content");
   editor.value = new Editor({
     content: content ? content : '',
     extensions: [StarterKit, Image]
@@ -72,10 +69,7 @@ const handleClick = (action) => {
 
 const handleSubmit = async () => {
   formInfo.value.content = editor.value.getHTML()
-
-  const response = await patchArticle(formInfo.value, id);
-
-  console.log(response);
+  await patchArticle(formInfo.value, id)
 }
 
 const setImage = async (event) => {
@@ -147,7 +141,10 @@ onBeforeMount(() => {
         <div class="editor-box" v-if="editor">
           <EditorContent :editor="editor" />
         </div>
-        <input class="submit_btn" type="submit" value="Edit article" />
+        <div class="button_row">
+          <input class="submit_btn" type="submit" value="Edit article" />
+          <button class="submit_btn">Delete</button>
+        </div>
       </form>
     </section>
   </main>
@@ -192,6 +189,12 @@ select {
   padding: 10px;
   border: 2px solid var(--slate);
   border-radius: 10px;
+}
+.button_row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 form {
   display: flex;

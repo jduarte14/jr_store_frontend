@@ -3,19 +3,22 @@ import { ref, onMounted, getCurrentInstance } from 'vue'
 import ArticleHome from '@/components/blog/ArticleHome.vue'
 import ProductSwiper from '@/components/ProductSwiper.vue'
 import { useGsapScrollAnimation } from '@/composables/useGsapScrollAnimation.js'
-import { getArticlesByCategory } from '@/controllers/Blog.js'
+import { getGroupsByCategory } from '@/controllers/Groups.js'
 
-const paintings = ref(null)
-const pictures = ref(null)
+const paintings = ref(null);
+const pictures = ref(null);
+const products = ref(null);
 
 const fetchArticles = async () => {
-  const [paintingsRes, picturesRes] = await Promise.all([
-    getArticlesByCategory('painting'),
-    getArticlesByCategory('pictures')
+  const [paintingsRes, picturesRes, productRes] = await Promise.all([
+    getGroupsByCategory('paintings', 'article'),
+    getGroupsByCategory('pictures', 'article'),
+    getGroupsByCategory('products', 'product'),
   ])
 
-  paintings.value = paintingsRes.articles
-  pictures.value = picturesRes.articles
+  paintings.value = paintingsRes.groups[0]?.items;
+  pictures.value = picturesRes.groups[0]?.items
+  products.value = productRes.groups[0]?.items
 }
 
 onMounted(async () => {
@@ -29,7 +32,7 @@ onMounted(async () => {
       <div class="info_top">
         <h2 class="title">Products</h2>
         <h2 class="title slate_title">Featured art works</h2>
-        <ProductSwiper />
+        <ProductSwiper :products="products"/>
       </div>
       <hr />
       <div class="title_row" v-if="paintings?.length && pictures?.length">

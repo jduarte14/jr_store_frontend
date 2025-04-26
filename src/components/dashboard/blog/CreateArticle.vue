@@ -13,7 +13,7 @@ const formInfo = ref({
   description: '',
   category: '',
   content: null,
-  banner: null
+  banner: []
 })
 
 const initEditor = () => {
@@ -52,9 +52,7 @@ const handleClick = (action) => {
 
 const handleSubmit = async () => {
   formInfo.value.content = editor.value.getHTML()
-
-  const response = await createArticle(formInfo.value)
-  console.log(response, "_response_");
+  await createArticle(formInfo.value)
 }
 
 const setImage = async (event) => {
@@ -72,13 +70,19 @@ const setBannerImage = async (event) => {
 
   const imageUrl = await uploadImage(file)
   if (imageUrl) {
-    formInfo.value.banner = imageUrl.url
+    formInfo.value.banner.push(imageUrl.url)
   }
 }
 
 const isFrontBannerLoaded = computed(() => {
-  return formInfo.value.banner
+  return formInfo.value.banner.length > 0
 })
+
+const removeBanner = (banner, id) => {
+  let banners = formInfo.value.banner
+
+  banners.splice(1, id)
+}
 
 onMounted(() => {
   initEditor()
@@ -93,15 +97,18 @@ onMounted(() => {
         <input type="text" placeholder="Add a short description" v-model="formInfo.description" />
 
         <label for="banner">Front page image</label>
-        <div class="banner_row">
-          <div v-if="isFrontBannerLoaded" style="position: relative">
-            <img :src="formInfo.banner" class="front_banner_preview" alt="front_banner_preview" />
-            <button class="remove_image" @click="formInfo.banner = null">
-              <Icon icon="material-symbols:delete-rounded" width="24" height="24" />
-            </button>
+        <div class="banner_row" v-if="isFrontBannerLoaded">
+          <div v-for="(banner, index) in formInfo.banner" :key="index">
+            <div style="position: relative">
+              <img :src="formInfo.banner" class="front_banner_preview" alt="front_banner_preview" />
+              <button class="remove_image" @click="removeBanner(banner, index)">
+                <Icon icon="material-symbols:delete-rounded" width="24" height="24" />
+              </button>
+            </div>
           </div>
-          <input v-else type="file" accept="image/*" class="file_image" @change="setBannerImage" />
         </div>
+
+        <input v-else type="file" accept="image/*" class="file_image" @change="setBannerImage" />
         <label for="categories">Article categories: </label>
         <select name="category" v-model="formInfo.category">
           <option value="" disabled>Select a category</option>
@@ -256,25 +263,25 @@ form {
   border-radius: 100%;
 }
 .submit_btn {
-    background: #1f2937;
-    padding: 8px 10px;
-    border-radius: 10px;
-    margin-bottom: 10px;
-    transition: 0.3s ease;
-    display: flex;
-    align-items: center;
-    color: white;
-    border: unset;
-    font-weight: bold;
-    letter-spacing: 0.2px;
-    transition: 0.3s ease;
-    cursor: pointer;
-    max-width: max-content;
-    padding-inline: 20rem;
-    min-height: 40px;
-    margin-top: 20px;
-    margin: 25px auto;
-    transition: 0.3s ease;
+  background: #1f2937;
+  padding: 8px 10px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  transition: 0.3s ease;
+  display: flex;
+  align-items: center;
+  color: white;
+  border: unset;
+  font-weight: bold;
+  letter-spacing: 0.2px;
+  transition: 0.3s ease;
+  cursor: pointer;
+  max-width: max-content;
+  padding-inline: 20rem;
+  min-height: 40px;
+  margin-top: 20px;
+  margin: 25px auto;
+  transition: 0.3s ease;
 }
 .submit_btn:hover {
   opacity: 0.8;
