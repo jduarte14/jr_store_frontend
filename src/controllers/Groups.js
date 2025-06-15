@@ -1,8 +1,6 @@
 import { fetchData } from "@/helpers/fetchHelper";
 
-let url = "http://localhost:4800/api/groups";
-
-
+let url = "https://jr-store-self.vercel.app/api/groups";
 export const getAllGroups = async () => {
     try {
         const response = fetchData(url, "GET");

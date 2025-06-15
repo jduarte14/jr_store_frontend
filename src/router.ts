@@ -17,6 +17,7 @@ import Blog from './views/Blog.vue';
 import CreateArticle from "@/components/dashboard/blog/CreateArticle.vue";
 import PatchArticle from "@/components/dashboard/blog/PatchArticle.vue";
 import ArticleList from "@/components/dashboard/blog/ArticleList.vue";
+import GroupsList from "@/components/dashboard/groups/GroupsList.vue";
 
 const routes = [
   { path: '/', component: Home },
@@ -36,6 +37,7 @@ const routes = [
   { path: '/dashboard/banners/patch/:id', component: PatchBanner, meta: { requiresAuth: true } },
   { path: '/dashboard/blog/create', component: CreateArticle, meta: { requiresAuth: true } },
   { path: '/dashboard/blog/patch/:id', component: PatchArticle, meta: { requiresAuth: true } },
+  { path: '/dashboard/groups', component: GroupsList, meta: { requiresAuth: true } },
   { path: '/:pathMatch(.*)*', component: ErrorPage },
 ];
 

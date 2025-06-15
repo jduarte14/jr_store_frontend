@@ -14,8 +14,11 @@ import { RouterLink } from 'vue-router'
       <div class="box">
         <RouterLink to="/dashboard/blog"> Blog </RouterLink>
       </div>
-      <div class="box full">
+      <div class="box mid">
         <RouterLink to="/dashboard/catalog"> Manage products </RouterLink>
+      </div>
+      <div class="box mid">
+        <RouterLink to="/dashboard/groups"> Manage groups </RouterLink>
       </div>
     </div>
   </section>
@@ -69,7 +72,6 @@ a {
   .full {
     grid-area: 3 / 1 / 4 / 4;
   }
-
   .dashboard_container {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -77,32 +79,43 @@ a {
     place-content: center;
     margin: 0 auto;
   }
+  .dashboard_container .box.mid {
+    grid-column: span 1;
+  }
+
+  .dashboard_container .box.mid {
+    grid-column: 1 / 2;
+  }
+
+  .dashboard_container .box.mid:last-of-type {
+    grid-column: 2 / 4;
+  }
 }
 @media (max-width: 920px) {
-    section {
-        max-width: 90%;
-        margin: 0 auto;
-    }
-    h1 {
-        font-size:1.8em;
-        text-align:center;
-    }
-    
-    .full {
-        grid-area: 3 / 1 / 4 / 2;
-    }
-    
-    .dashboard_container {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        gap: 20px;
-    }
-    .box {
-        width:100%;
-        margin-left:10px;
-        margin-right:10px;
-    }
+  section {
+    max-width: 90%;
+    margin: 0 auto;
+  }
+  h1 {
+    font-size: 1.8em;
+    text-align: center;
+  }
+
+  .full {
+    grid-area: 3 / 1 / 4 / 2;
+  }
+
+  .dashboard_container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+  }
+  .box {
+    width: 100%;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
 }
 </style>

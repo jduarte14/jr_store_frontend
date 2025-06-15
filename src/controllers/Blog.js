@@ -1,6 +1,6 @@
 import { fetchData } from "@/helpers/fetchHelper";
 
-let url = "http://localhost:4800/api/articles";
+let url = "https://jr-store-self.vercel.app/api/articles";
 
 export const getArticles = async () => {
     try {
