@@ -4,10 +4,17 @@ import { Icon } from '@iconify/vue'
 import { RouterLink } from 'vue-router'
 import { useGroupStore } from '../../../stores/groupStore'
 import Spinner from '../../Spinner.vue'
+import CatalogPopUp from "@/components/dashboard/CatalogPopUp.vue";
 
 const groupStore = useGroupStore()
 const groupListData = ref(null)
 const filteredList = ref([])
+const popup = ref({
+  edit: false,
+  delete: false,
+  category: null,
+  key : null,
+})
 
 const getGroups = async () => {
   try {
@@ -40,6 +47,12 @@ const groupItems = ref([
   { name: 'Pictures', icon: 'mdi:camera', click: () => filterGroupList('pictures') },
   { name: 'Products', icon: 'mdi:cart', click: () => filterGroupList('products') }
 ])
+
+const openCatalog = (category, key) => {
+  popup.value.edit = true
+  popup.value.category = category;
+  popup.value.key = key;
+}
 
 onBeforeMount(() => {
   getGroups()
@@ -77,7 +90,7 @@ onBeforeMount(() => {
                 </span>
                 <div class="actions">
                   <div>
-                    <Icon icon="ic:sharp-edit" width="24" height="24" />
+                    <Icon icon="ic:sharp-edit" width="24" height="24" @click="openCatalog(group.category, key)"/>
                   </div>
                   <div>
                     <Icon icon="material-symbols:delete" width="24" height="24" />
@@ -88,6 +101,7 @@ onBeforeMount(() => {
           </div>
         </div>
       </div>
+      <CatalogPopUp v-if="popup.edit" :data="groupListData[popup.category][0]" @close="popup.edit = false"/>
     </section>
   </main>
 </template>
@@ -104,6 +118,9 @@ onBeforeMount(() => {
 }
 .actions div:hover {
   opacity: 0.8;
+}
+p {
+  line-height: 1.5;
 }
 .list_container {
   display: flex;

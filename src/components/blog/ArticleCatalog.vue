@@ -77,7 +77,7 @@ const filters = ref(['Paintings', 'Pictures'])
         </ul>
       </aside>
     <div class="articles_wrapper">
-      <article v-for="article in articles" :key="articles._id">
+      <article v-for="article in articles" :key="article._id">
         <img :src="article.banner" :alt="test + '_image'" />
         <div class="article_info">
           <h4>{{ article.title }}</h4>
